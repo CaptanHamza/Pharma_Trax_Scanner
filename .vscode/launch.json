@@ -1,24 +1,8 @@
 {
     "configurations": [
         
-<<<<<<< HEAD
-        
-        {
-            "name": "Attach to Chrome",
-            "port": 9222,
-            "request": "attach",
-            "type": "chrome",
-            "webRoot": "${workspaceFolder}"
-        },
-        {
-            "name": "Flutter: Attach to Device",
-            "type": "dart",
-            "request": "attach"
-        },
-=======
     
       
->>>>>>> origin/main
         {
             "name": "Flutter",
             "program": "lib/main.dart",
