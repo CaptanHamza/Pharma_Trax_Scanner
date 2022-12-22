@@ -145,14 +145,13 @@ Future<bool> _onWillPop() async {
                       children: [
                       InkWell(
                         onTap: () {
-                             if(data[index]['barcode_type'] == "DATA MATRIX (GS1)"  && data[index]['barcode_type'] == "DATA MATRIX") {
+                             if(data[index]['barcode_type'] == "DATA MATRIX (GS1)"  || data[index]['barcode_type'] == "DATA MATRIX") {
        Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => QRCodeResultScreen(
                                     data[index]['id'],
                                     data[index]['barcode_type'],
-                                    
                                     false),
                               ));
 

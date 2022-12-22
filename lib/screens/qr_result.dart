@@ -15,14 +15,13 @@ import 'package:intl/intl.dart';
 import 'package:pharma_trax_scanner/Widgets/db_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class QRCodeResultScreen extends StatefulWidget {
-
   String? qrCode;
   String? typeText;
   bool? isScanFile;
   String? rawByteCode;
-  QRCodeResultScreen(this.qrCode, this.typeText, this.isScanFile, {Key? key,this.rawByteCode})
+  QRCodeResultScreen(this.qrCode, this.typeText, this.isScanFile,
+      {Key? key, this.rawByteCode})
       : super(key: key);
 
   @override
@@ -574,20 +573,22 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
       "maximumLength": 90
     },
   ];
-  
-  
+
   final dbhelper = DataBaseHelper.instance;
   List<Map<String, dynamic>> resultMap = [];
+
   List getLocalstoreData = [];
   List qrResultConvertList = [];
   String? getSpecialCharacter;
-    String? getSpecialCharacterLastIndex;
+  String? getSpecialCharacterLastIndex;
   String? afterAlldataNewstringg;
   String? getSpecialcharcatershape;
 
+  String? getNewSpaecialcharacter = '';
+
   String? productName;
   String? CompanyName;
-  String? suplychain=null ;
+  String? suplychain = null;
 
   bool isGTINExistValue = false;
 
@@ -595,14 +596,12 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
 
   @override
   void initState() {
-
-
     log(widget.qrCode!);
 
- CheckValueExitInDbb();
+    CheckValueExitInDbb();
 
 // fatchData();
-    
+
     String? getqrcoderesult = widget.qrCode.toString();
 
     replaceAllspecialcharacter =
@@ -613,39 +612,42 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
     getSpecialCharacter = getqrcoderesult.codeUnitAt(0).toString();
 
     log(getSpecialCharacter.toString());
-    getSpecialCharacterLastIndex = getqrcoderesult.codeUnitAt(widget.qrCode!.length-1).toString();
-
-    if (widget.isScanFile!) {
-      insertScanData(widget.qrCode.toString(), getSpecialCharacter =="29"? 'DATA MATRIX (GS1)':'DATA MATRIX');
-      widget.isScanFile = false;
-    }
+    getSpecialCharacterLastIndex =
+        getqrcoderesult.codeUnitAt(widget.qrCode!.length - 1).toString();
 
     if (getSpecialCharacter == "29") {
-
-      
-
       for (int i = 0; i < widget.qrCode!.length; i++) {
         qrResultConvertList.add(widget.qrCode![i].toString());
       }
 
-      log(qrResultConvertList.toString());
+      // log(qrResultConvertList.toString());
 
       CheckValueForTest(widget.qrCode.toString());
     } else {
       log("invalid Data Matrix");
     }
 
-//    log(resultMap.toString());
+    if (getSpecialCharacter == "29") {
+      for (int i = 0; i < widget.qrCode!.length; i++) {
+        if (widget.qrCode![0] == widget.qrCode![i]) {
+          getNewSpaecialcharacter = "$getNewSpaecialcharacter" + "FNC";
+        } else {
+          getNewSpaecialcharacter =
+              "$getNewSpaecialcharacter" + widget.qrCode![i];
+        }
+      }
+    }
 
-   // CheckValueExitInDb();
+    if (widget.isScanFile!) {
+      insertScanData(widget.qrCode.toString(),
+          resultMap.isNotEmpty ? 'DATA MATRIX (GS1)' : 'DATA MATRIX');
+      widget.isScanFile = false;
+    }
 
     super.initState();
-  
   }
 
-
-
- void insertScanData(String qrData, String qrType) async {
+  void insertScanData(String qrData, String qrType) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userEmailId = prefs.getString("email");
 
@@ -659,489 +661,859 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
     final id = await dbhelper.insertTable2(row);
   }
 
-  CheckValueForTest(String? newStringafterSpecialCharcter) async {
-  
-if(newStringafterSpecialCharcter!.length==1){
-
-  if(newStringafterSpecialCharcter == widget.qrCode!.substring(widget.qrCode!.length-1)){
-   // print("The Value of Last Index ${widget.qrCode!.length-1}");
-     if(newStringafterSpecialCharcter.codeUnitAt(0).toString() =="29" ){
-     Future.delayed(Duration.zero, () {
-    Get.defaultDialog(
-      title: 'Alert',
-   titleStyle: TextStyle(fontWeight: FontWeight.bold),
-       
-      content: Text('FNC Not Required At Index ${widget.qrCode!.length-1}',style: TextStyle(fontWeight: FontWeight.w500),)
-      
-
-    );
+  void ShowDialogBox(String message) {
+    Future.delayed(Duration.zero, () {
+      Get.defaultDialog(
+          title: 'Alert',
+          titleStyle: TextStyle(fontWeight: FontWeight.bold),
+          content: Text(
+            message.toString(),
+            style: TextStyle(fontWeight: FontWeight.w500),
+          ));
     });
-  
-// log("No Need this");
   }
-  }
- 
-}else{
-  if (newStringafterSpecialCharcter.codeUnitAt(0).toString() == "29") {
-      String? newStringDeleteFirstIndex = newStringafterSpecialCharcter
-          .substring(1, newStringafterSpecialCharcter.length);
 
-      log(newStringDeleteFirstIndex.toString());
-      String? getFirsttwoIndex = newStringDeleteFirstIndex.substring(0, 2);
-      String? getFirstthreeIndex = newStringDeleteFirstIndex.substring(0, 3);
-      String? getFirstfourIndex = newStringDeleteFirstIndex.substring(0, 4);
-
-      for (var key in map) {
-        if (key['identifer'] == getFirsttwoIndex) {
-// delete First 2 Character match Map Key Value
-
-          String? getLengthafterCode = newStringDeleteFirstIndex.substring(
-              2, newStringDeleteFirstIndex.length);
-          log(getLengthafterCode);
-
-// get Length of Map key Value so that get number of string which define map
-
-          int? getLength = key["length"] ?? key["maximumLength"];
-          log(getLength.toString());
-
-          // get Length of String and Save Other Map toi display
-
-          if (getLength! > getLengthafterCode.length) {
-            log("the allow length greater than curretn sting length");
-            log(getLengthafterCode);
-
-            String? getFirstVIIStringg = getLengthafterCode;
-
-            if (getFirstVIIStringg.contains(getSpecialcharcatershape!)) {
-              int? getIndex =
-                  getFirstVIIStringg.indexOf(getSpecialcharcatershape!);
-
-              log(getIndex.toString());
-
-              getFirstVIIStringg = getLengthafterCode.substring(0, getIndex);
-              log(getFirstVIIStringg);
-
-              afterAlldataNewstringg = getLengthafterCode.substring(
-                  getIndex, getLengthafterCode.length);
-
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': getFirstVIIStringg
-              });
-
-              setState(() {
-                CheckValueForTest(afterAlldataNewstringg);
-              });
-            } else {
-             String afterAlldataNewstringgnoExistSpecial = getLengthafterCode;
-
-              log(getFirstVIIStringg);
-              log(afterAlldataNewstringg!);
-
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': afterAlldataNewstringgnoExistSpecial
-              });
-              // setState(() {
-              //   CheckValueForTest(afterAlldataNewstringg);
-              // });
-            }
-          } else {
-            String? getFirstVIIStringg =
-                getLengthafterCode.substring(0, getLength);
-
-            if (getFirstVIIStringg.contains(getSpecialcharcatershape!)) {
-              int? getIndex =
-                  getFirstVIIStringg.indexOf(getSpecialcharcatershape!);
-
-              log(getIndex.toString());
-
-              getFirstVIIStringg = getLengthafterCode.substring(0, getIndex);
-              log(getFirstVIIStringg);
-
-              afterAlldataNewstringg = getLengthafterCode.substring(
-                  getIndex, getLengthafterCode.length);
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': getFirstVIIStringg
-              });
-              setState(() {
-                CheckValueForTest(afterAlldataNewstringg);
-              });
-            } else {
-              afterAlldataNewstringg = getLengthafterCode.substring(
-                  getLength, getLengthafterCode.length);
-
-              log(getFirstVIIStringg);
-              log(afterAlldataNewstringg!);
-
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': getFirstVIIStringg
-              });
-
-              setState(() {
-                CheckValueForTest(afterAlldataNewstringg);
-              });
-            }
-          }
-        } 
-        else if (key['identifer'] == getFirstthreeIndex) {
-          String? getLengthafterCode = newStringDeleteFirstIndex.substring(
-              3, newStringDeleteFirstIndex.length);
-          log(getLengthafterCode);
-
-          //log(getLengthafterCode.length.toString());
-          int? SizeOfstring = getLengthafterCode.length;
-          log(SizeOfstring.toString());
-
-// get Length of Map key Value so that get number of string which define map
-
-          int? getLength = key["length"] ?? key["maximumLength"];
-          log(getLength.toString());
-
-          // get Length of String and Save Other Map toi display
-
-          if (getLength! > SizeOfstring) {
-            log("the max length greater than available string length");
-            log(getLengthafterCode);
-
-            String? getFirstVIIStringg = getLengthafterCode;
-
-            if (getFirstVIIStringg.contains(getSpecialcharcatershape!)) {
-              log("The special charecher exist last value");
-              int? getIndex =
-                  getFirstVIIStringg.indexOf(getSpecialcharcatershape!);
-
-              log(getIndex.toString());
-
-              getFirstVIIStringg = getLengthafterCode.substring(0, getIndex);
-              log(getFirstVIIStringg);
-
-              afterAlldataNewstringg = getLengthafterCode.substring(
-                  getIndex, getLengthafterCode.length);
-
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': getFirstVIIStringg
-              });
-
-              setState(() {
-                CheckValueForTest(afterAlldataNewstringg);
-              });
-            } else {
-            String  afterAlldataNewstringgnoSpecial = getLengthafterCode;
-
-              log(afterAlldataNewstringgnoSpecial);
-              //log(afterAlldataNewstringg!);
-
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': afterAlldataNewstringgnoSpecial
-              });
-            // setState(() {
-               //CheckValueForTest(afterAlldataNewstringgnoSpecial);
-            //  });
-            }
-          } else {
-            String? getFirstVIIStringg =
-                getLengthafterCode.substring(0, getLength);
-
-            if (getFirstVIIStringg.contains(getSpecialcharcatershape!)) {
-              int? getIndex =
-                  getFirstVIIStringg.indexOf(getSpecialcharcatershape!);
-
-              log(getIndex.toString());
-
-              getFirstVIIStringg = getLengthafterCode.substring(0, getIndex);
-              log(getFirstVIIStringg);
-
-              afterAlldataNewstringg = getLengthafterCode.substring(
-                  getIndex, getLengthafterCode.length);
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': getFirstVIIStringg
-              });
-              setState(() {
-                CheckValueForTest(afterAlldataNewstringg);
-              });
-            } else {
-              afterAlldataNewstringg = getLengthafterCode.substring(
-                  getLength, getLengthafterCode.length);
-
-              log(getFirstVIIStringg);
-              log(afterAlldataNewstringg!);
-
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': getFirstVIIStringg
-              });
-
-              setState(() {
-                CheckValueForTest(afterAlldataNewstringg);
-              });
-            }
-          }
-        } else if (key['identifer'] == getFirstfourIndex) {
-          String? getLengthafterCode = newStringDeleteFirstIndex.substring(
-              4, newStringDeleteFirstIndex.length);
-          log(getLengthafterCode);
-
-// get Length of Map key Value so that get number of string which define map
-
-          int? getLength = key["length"] ?? key["maximumLength"];
-          log(getLength.toString());
-
-          // get Length of String and Save Other Map toi display
-
-          if (getLength! > getLengthafterCode.length) {
-            log(getLengthafterCode);
-
-            String? getFirstVIIStringg = getLengthafterCode;
-
-            if (getFirstVIIStringg.contains(getSpecialcharcatershape!)) {
-              int? getIndex =
-                  getFirstVIIStringg.indexOf(getSpecialcharcatershape!);
-
-              log(getIndex.toString());
-
-              getFirstVIIStringg = getLengthafterCode.substring(0, getIndex);
-              log(getFirstVIIStringg);
-
-              afterAlldataNewstringg = getLengthafterCode.substring(
-                  getIndex, getLengthafterCode.length);
-
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': getFirstVIIStringg
-              });
-
-              setState(() {
-                CheckValueForTest(afterAlldataNewstringg);
-              });
-            } else {
-             String afterAlldataNewstringgnoExist = getLengthafterCode;
-
-              log(getFirstVIIStringg);
-              log(afterAlldataNewstringg!);
-
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': afterAlldataNewstringgnoExist
-              });
-              // setState(() {
-              //   CheckValueForTest(afterAlldataNewstringg);
-              // });
-            }
-          } else {
-            String? getFirstVIIStringg =
-                getLengthafterCode.substring(0, getLength);
-
-            if (getFirstVIIStringg.contains(getSpecialcharcatershape!)) {
-              int? getIndex =
-                  getFirstVIIStringg.indexOf(getSpecialcharcatershape!);
-
-              log(getIndex.toString());
-
-              getFirstVIIStringg = getLengthafterCode.substring(0, getIndex);
-              log(getFirstVIIStringg);
-
-              afterAlldataNewstringg = getLengthafterCode.substring(
-                  getIndex, getLengthafterCode.length);
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': getFirstVIIStringg
-              });
-              setState(() {
-                CheckValueForTest(afterAlldataNewstringg);
-              });
-            } else {
-              afterAlldataNewstringg = getLengthafterCode.substring(
-                  getLength, getLengthafterCode.length);
-
-              log(getFirstVIIStringg);
-              log(afterAlldataNewstringg!);
-
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': getFirstVIIStringg
-              });
-
-              setState(() {
-                CheckValueForTest(afterAlldataNewstringg);
-              });
-            }
-          }
+  CheckValueForTest(String? newStringafterSpecialCharcter) async {
+    if (newStringafterSpecialCharcter!.length == 1) {
+      if (newStringafterSpecialCharcter ==
+          widget.qrCode!.substring(widget.qrCode!.length - 1)) {
+        // print("The Value of Last Index ${widget.qrCode!.length-1}");
+        if (newStringafterSpecialCharcter.codeUnitAt(0).toString() == "29") {
+          ShowDialogBox(
+              'FNC Not Required At Index ${widget.qrCode!.length - 1}');
+
+          setState(() {
+            resultMap = [];
+          });
         }
       }
     } else {
-      log(newStringafterSpecialCharcter.toString());
-      String? getFirsttwoIndex = newStringafterSpecialCharcter.substring(0, 2);
-      String? getFirstthreeIndex =
-          newStringafterSpecialCharcter.substring(0, 3);
-      String? getFirstfourIndex = newStringafterSpecialCharcter.substring(0, 4);
+      if (newStringafterSpecialCharcter.codeUnitAt(0).toString() == "29") {
+        String? newStringDeleteFirstIndex = newStringafterSpecialCharcter
+            .substring(1, newStringafterSpecialCharcter.length);
+      if(newStringDeleteFirstIndex.length >1){
+getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
+      }
+      } else {
+   if(newStringafterSpecialCharcter.length>1){
+        getDataMatrixCodeRemoveFirstIndex(newStringafterSpecialCharcter);
+      }
+      }
+    }
+  }
 
-      for (var key in map) {
-        if (key['identifer'] == getFirsttwoIndex) {
-          String? getLengthafterCode = newStringafterSpecialCharcter.substring(
-              2, newStringafterSpecialCharcter.length);
-          log(getLengthafterCode);
-          // if (fetchmap.containsKey("length")) {
-          int? getLength = key["length"] ?? key["maximumLength"];
-          log(getLength.toString());
+  getDataMatrixCodeRemoveFirstIndex(String newStringDeleteFirstIndex) {
+    if (newStringDeleteFirstIndex.length < 3) {
+      getDataMatrixWithFirstTwoIndex(newStringDeleteFirstIndex);
+    } else if (newStringDeleteFirstIndex.length < 4) {
+      getDataMatrixWithFirstThreeIndex(newStringDeleteFirstIndex);
+    } else if (newStringDeleteFirstIndex.length >= 4) {
+      getDataMatrixWithFirstFourIndex(newStringDeleteFirstIndex);
+    }
+  }
 
-          if (getLength! > getLengthafterCode.length) {
-            log(getLengthafterCode);
+  getDataMatrixWithFirstTwoIndex(String newStringDeleteFirstIndex) {
+    String? getFirsttwoIndex = newStringDeleteFirstIndex.substring(0, 2);
 
-            String? getFirstVIIStringg = getLengthafterCode;
+    for (var key in map) {
+      if (key['identifer'] == getFirsttwoIndex) {
+        int checkItemExistorNot = 0;
 
-            if (getFirstVIIStringg.contains(getSpecialcharcatershape!)) {
-              int? getIndex =
-                  getFirstVIIStringg.indexOf(getSpecialcharcatershape!);
-
-              log(getIndex.toString());
-
-              getFirstVIIStringg = getLengthafterCode.substring(0, getIndex);
-              log(getFirstVIIStringg);
-
-              afterAlldataNewstringg = getLengthafterCode.substring(
-                  getIndex, getLengthafterCode.length);
-
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': getFirstVIIStringg
-              });
-
-              setState(() {
-                CheckValueForTest(afterAlldataNewstringg);
-              });
-            } else {
-            String?  afterAlldataNewstringgnotExist = getLengthafterCode;
-
-              log(getFirstVIIStringg);
-              log(afterAlldataNewstringg!);
-
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': afterAlldataNewstringgnotExist
-              });
-
-              // setState(() {
-              //   CheckValueForTest(afterAlldataNewstringg);
-              // });
-            }
-          } else {
-            String? getFirstVIIStringg =
-                getLengthafterCode.substring(0, getLength);
-
-            if (getFirstVIIStringg.contains(getSpecialcharcatershape!)) {
-              int? getIndex =
-                  getFirstVIIStringg.indexOf(getSpecialcharcatershape!);
-
-              log(getIndex.toString());
-
-              getFirstVIIStringg = getLengthafterCode.substring(0, getIndex);
-              log(getFirstVIIStringg);
-
-              afterAlldataNewstringg = getLengthafterCode.substring(
-                  getIndex, getLengthafterCode.length);
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': getFirstVIIStringg
-              });
-              setState(() {
-                CheckValueForTest(afterAlldataNewstringg);
-              });
-            } else {
-              afterAlldataNewstringg = getLengthafterCode.substring(
-                  getLength, getLengthafterCode.length);
-
-              log(getFirstVIIStringg);
-              log(afterAlldataNewstringg!);
-              resultMap.add({
-                'identifer': key["identifer"],
-                'title': key["title"],
-                'value': getFirstVIIStringg
-              });
-              setState(() {
-                CheckValueForTest(afterAlldataNewstringg);
-              });
-            }
+        for (var item in resultMap) {
+          if (item['identifer'] == getFirsttwoIndex) {
+            checkItemExistorNot++;
           }
-        } else if (key['identifer'] == getFirstthreeIndex) {
-        } else if (key['identifer'] == getFirstfourIndex) {
-          log(key['identifer']);
+        }
+
+        if (checkItemExistorNot > 0) {
+          ShowDialogBox(
+              'Dublicate AII ${key['title']} At Index ${widget.qrCode!.length - newStringDeleteFirstIndex.length + 1}');
+          // ShowDialogBox("FNC Required At point ");
+
+          setState(() {
+            resultMap = [];
+          });
+        } else {
+          String? getLengthafterCode = newStringDeleteFirstIndex.substring(
+              2, newStringDeleteFirstIndex.length);
+          if (key.containsKey("length")) {
+            int? getLength = key["length"];
+
+            afterGetLengthThanAgainParsing(key, getLength!, getLengthafterCode);
+          } else if (key.containsKey("maximumLength")) {
+            int? getLength = key["maximumLength"];
+            int? getminiLength = key['minimumLength'];
+            afterGetMaximumLengthThanAgainParsing(
+                key, getLength!, getLengthafterCode, getminiLength!);
+          }
         }
       }
     }
-}
-    
   }
 
+  getDataMatrixWithFirstThreeIndex(String newStringDeleteFirstIndex) {
+    String? getFirsttwoIndex = newStringDeleteFirstIndex.substring(0, 2);
+    String? getFirstthreeIndex = newStringDeleteFirstIndex.substring(0, 3);
 
-//   Future<void> fatchData() async {
-   
-//      List<Map<String,dynamic>>  data = await dbhelper.fatchTable1();
-    
-//       log(data.toString());
-// log(data.length.toString());
+    for (var key in map) {
+      if (key['identifer'] == getFirsttwoIndex) {
+        int checkItemExistorNot = 0;
 
-//     // version = data[0]['version'];
-//     // updatedDate =DateTime.parse(data[0]['update_date']);
-//     // formattedDate = DateFormat('yyyy-MM-dd hh:mm').format(updatedDate!);
-//     setState(() {});
-//   }
- 
+        for (var item in resultMap) {
+          if (item['identifer'] == getFirsttwoIndex) {
+            checkItemExistorNot++;
+          }
+        }
+
+        if (checkItemExistorNot > 0) {
+          ShowDialogBox(
+              'Dublicate AII ${key['title']} At Index ${widget.qrCode!.length - newStringDeleteFirstIndex.length + 1}');
+          // ShowDialogBox("FNC Required At point ");
+
+          setState(() {
+            resultMap = [];
+          });
+        } else {
+          String? getLengthafterCode = newStringDeleteFirstIndex.substring(
+              2, newStringDeleteFirstIndex.length);
+          if (key.containsKey("length")) {
+            int? getLength = key["length"];
+            afterGetLengthThanAgainParsing(key, getLength!, getLengthafterCode);
+          } else if (key.containsKey("maximumLength")) {
+            int? getLength = key["maximumLength"];
+            int? getminiLength = key['minimumLength'];
+            afterGetMaximumLengthThanAgainParsing(
+                key, getLength!, getLengthafterCode, getminiLength!);
+          }
+        }
+      } else if (key['identifer'] == getFirstthreeIndex) {
+        int checkItemExistorNot = 0;
+
+        for (var item in resultMap) {
+          if (item['identifer'] == getFirstthreeIndex) {
+            checkItemExistorNot++;
+          }
+        }
+
+        if (checkItemExistorNot > 0) {
+          ShowDialogBox(
+              'Dublicate AII ${key['title']} At Index ${widget.qrCode!.length - newStringDeleteFirstIndex.length + 1}');
+          // ShowDialogBox("FNC Required At point ");
+
+          setState(() {
+            resultMap = [];
+          });
+        } else {
+          String? getLengthafterCode = newStringDeleteFirstIndex.substring(
+              3, newStringDeleteFirstIndex.length);
+
+          int? SizeOfstring = getLengthafterCode.length;
+
+          if (key.containsKey("length")) {
+            int? getLength = key["length"];
+
+            afterGetLengthThanAgainParsing(key, getLength!, getLengthafterCode);
+          } else if (key.containsKey("maximumLength")) {
+            int? getLength = key["maximumLength"];
+            int? getminiLength = key['minimumLength'];
+            afterGetMaximumLengthThanAgainParsing(
+                key, getLength!, getLengthafterCode, getminiLength!);
+          }
+        }
+      }
+    }
+  }
+
+  getDataMatrixWithFirstFourIndex(String newStringDeleteFirstIndex) {
+    String? getFirsttwoIndex = newStringDeleteFirstIndex.substring(0, 2);
+    String? getFirstthreeIndex = newStringDeleteFirstIndex.substring(0, 3);
+    String? getFirstfourIndex = newStringDeleteFirstIndex.substring(0, 4);
+
+    for (var key in map) {
+      if (key['identifer'] == getFirsttwoIndex) {
+        int checkItemExistorNot = 0;
+
+        for (var item in resultMap) {
+          if (item['identifer'] == getFirsttwoIndex) {
+            checkItemExistorNot++;
+          }
+        }
+
+        if (checkItemExistorNot > 0) {
+          ShowDialogBox(
+              'Dublicate AII ${key['title']} At Index ${widget.qrCode!.length - newStringDeleteFirstIndex.length + 1}');
+          // ShowDialogBox("FNC Required At point ");
+
+          setState(() {
+            resultMap = [];
+          });
+        } else {
+          String? getLengthafterCode = newStringDeleteFirstIndex.substring(
+              2, newStringDeleteFirstIndex.length);
+
+          if (key.containsKey("length")) {
+            int? getLength = key["length"];
+            afterGetLengthThanAgainParsing(key, getLength!, getLengthafterCode);
+          } else if (key.containsKey("maximumLength")) {
+            int? getLength = key["maximumLength"];
+            int? getminiLength = key['minimumLength'];
+            afterGetMaximumLengthThanAgainParsing(
+                key, getLength!, getLengthafterCode, getminiLength!);
+          }
+        }
+      } else if (key['identifer'] == getFirstthreeIndex) {
+        int checkItemExistorNot = 0;
+
+        for (var item in resultMap) {
+          if (item['identifer'] == getFirstthreeIndex) {
+            checkItemExistorNot++;
+          }
+        }
+
+        if (checkItemExistorNot > 0) {
+          ShowDialogBox(
+              'Dublicate AII ${key['title']} At Index ${widget.qrCode!.length - newStringDeleteFirstIndex.length + 1}');
+          // ShowDialogBox("FNC Required At point ");
+
+          setState(() {
+            resultMap = [];
+          });
+        } else {
+          String? getLengthafterCode = newStringDeleteFirstIndex.substring(
+              3, newStringDeleteFirstIndex.length);
+
+          int? SizeOfstring = getLengthafterCode.length;
+
+          if (key.containsKey("length")) {
+            int? getLength = key["length"];
+            afterGetLengthThanAgainParsing(key, getLength!, getLengthafterCode);
+          } else if (key.containsKey("maximumLength")) {
+            int? getLength = key["maximumLength"];
+            int? getminiLength = key['minimumLength'];
+            afterGetMaximumLengthThanAgainParsing(
+                key, getLength!, getLengthafterCode, getminiLength!);
+          }
+        }
+      } else if (key['identifer'] == getFirstfourIndex) {
+        int checkItemExistorNot = 0;
+
+        for (var item in resultMap) {
+          if (item['identifer'] == getFirstfourIndex) {
+            checkItemExistorNot++;
+          }
+        }
+
+        if (checkItemExistorNot > 0) {
+          ShowDialogBox(
+              'Dublicate AII ${key['title']} At Index ${widget.qrCode!.length - newStringDeleteFirstIndex.length + 1}');
+          // ShowDialogBox("FNC Required At point ");
+
+          setState(() {
+            resultMap = [];
+          });
+        } else {
+          String? getLengthafterCode = newStringDeleteFirstIndex.substring(
+              4, newStringDeleteFirstIndex.length);
+
+          if (key.containsKey("length")) {
+            int? getLength = key["length"];
+            afterGetLengthThanAgainParsing(key, getLength!, getLengthafterCode);
+          } else if (key.containsKey("maximumLength")) {
+            int? getLength = key["maximumLength"];
+            int? getminiLength = key['minimumLength'];
+            afterGetMaximumLengthThanAgainParsing(
+                key, getLength!, getLengthafterCode, getminiLength!);
+          }
+        }
+      }
+    }
+  }
+
+  afterGetLengthThanAgainParsing(Map<String, dynamic> key, int getLength, String getLengthafterCode) {
+    if (getLength > getLengthafterCode.length) {
+      ShowDialogBox("Invalid Data Matrix ${key['title']} Length not Complete");
+      setState(() {
+        resultMap = [];
+      });
+    } else if (getLength == getLengthafterCode.length) {
+      String? getFirstVIIStringg = getLengthafterCode;
+      if (getFirstVIIStringg.contains(getSpecialcharcatershape!)) {
+        int? getIndex = getFirstVIIStringg.indexOf(getSpecialcharcatershape!);
+        getFirstVIIStringg = getLengthafterCode.substring(0, getIndex);
+
+        afterAlldataNewstringg =
+            getLengthafterCode.substring(getIndex, getLengthafterCode.length);
+        ShowDialogBox(
+            'FNC Not Required At Index ${widget.qrCode!.length - afterAlldataNewstringg!.length + 1}');
+        setState(() {
+          resultMap = [];
+        });
+      } else {
+        String afterAlldataNewstringgnoExistSpecial = getLengthafterCode;
+
+        resultMap.add({
+          'identifer': key["identifer"],
+          'title': key["title"],
+          'value': afterAlldataNewstringgnoExistSpecial
+        });
+        // setState(() {
+        //   CheckValueForTest(afterAlldataNewstringg);
+        // });
+      }
+    } else {
+      String? getFirstVIIStringg = getLengthafterCode.substring(0, getLength);
+      if (getFirstVIIStringg.contains(getSpecialcharcatershape!)) {
+        ShowDialogBox('FNC Not Required in ${key['title']}');
+        setState(() {
+          resultMap = [];
+        });
+      } else {
+        afterAlldataNewstringg =
+            getLengthafterCode.substring(getLength, getLengthafterCode.length);
+
+        resultMap.add({
+          'identifer': key["identifer"],
+          'title': key["title"],
+          'value': getFirstVIIStringg
+        });
+
+        // setState(() {
+        //   CheckValueForTest(afterAlldataNewstringg);
+        // });
+        int count = 0;
+        String? countnumberOfAIIToNotMatch;
+        if (afterAlldataNewstringg!.length > 0) {
+          if (afterAlldataNewstringg!.codeUnitAt(0).toString() == "29") {
+            ShowDialogBox(
+                'FNC Not Required After ${key['title']} At Index ${widget.qrCode!.length - afterAlldataNewstringg!.length + 1}');
+            setState(() {
+              resultMap = [];
+            });
+            //CheckValueForTest(afterAlldataNewstringg);
+          } else {
+            if (afterAlldataNewstringg!.length < 2) {
+              countnumberOfAIIToNotMatch =
+                  afterAlldataNewstringg!.substring(0, 1);
+            } else if (afterAlldataNewstringg!.length < 3) {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              countnumberOfAIIToNotMatch = getFirsttwoIndex;
+
+              for (key in map) {
+                if (key['identifer'] == getFirsttwoIndex.toString()) {
+                  count++;
+                }
+              }
+            } else if (afterAlldataNewstringg!.length < 4) {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              String? getFirstthreeIndex =
+                  afterAlldataNewstringg!.substring(0, 3);
+
+              countnumberOfAIIToNotMatch = getFirstthreeIndex;
+
+              for (key in map) {
+                if (key['identifer'] == getFirsttwoIndex.toString() ||
+                    key['identifer'] == getFirstthreeIndex.toString()) {
+                  count++;
+                }
+              }
+            } else {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              String? getFirstthreeIndex =
+                  afterAlldataNewstringg!.substring(0, 3);
+              String? getFirstfourIndex =
+                  afterAlldataNewstringg!.substring(0, 4);
+
+              countnumberOfAIIToNotMatch = getFirstfourIndex;
+              for (key in map) {
+                if (key['identifer'] == getFirsttwoIndex.toString() ||
+                    key['identifer'] == getFirstthreeIndex.toString() ||
+                    key['identifer'] == getFirstfourIndex.toString()) {
+                  count++;
+                }
+              }
+            }
+
+            if (count > 0) {
+              CheckValueForTest(afterAlldataNewstringg);
+              count = 0;
+            } else {
+              ShowDialogBox(
+                  'Invalid AII ${countnumberOfAIIToNotMatch}  At Index ${widget.qrCode!.length - afterAlldataNewstringg!.length + 1}');
+              setState(() {
+                resultMap = [];
+              });
+            }
+          }
+        }
+
+        // else {
+        //   //tis
+        //   afterAlldataNewstringg = getLengthafterCode.substring(
+        //       getLength, getLengthafterCode.length);
+
+        //   resultMap.add({
+        //     'identifer': key["identifer"],
+        //     'title': key["title"],
+        //     'value': getFirstVIIStringg
+        //   });
+        //   // setState(() {
+        //   //   CheckValueForTest(afterAlldataNewstringg);
+        //   // });
+
+        //   int count = 0;
+        //   String? countnumberOfAIIToNotMatch;
+        //   if (afterAlldataNewstringg!.length > 0) {
+        //     if (afterAlldataNewstringg!.codeUnitAt(0).toString() == "29") {
+        //       CheckValueForTest(afterAlldataNewstringg);
+        //     } else {
+        //       if (afterAlldataNewstringg!.length < 2) {
+        //         String? countnumberOfAIIToNotMatch =
+        //             afterAlldataNewstringg!.substring(0, 1);
+        //       } else if (afterAlldataNewstringg!.length < 3) {
+        //         String? getFirsttwoIndex =
+        //             afterAlldataNewstringg!.substring(0, 2);
+        //         countnumberOfAIIToNotMatch = getFirsttwoIndex;
+
+        //         for (key in map) {
+        //           if (key['identifer'] == getFirsttwoIndex.toString()) {
+        //             count++;
+        //           }
+        //         }
+        //       } else if (afterAlldataNewstringg!.length < 4) {
+        //         String? getFirsttwoIndex =
+        //             afterAlldataNewstringg!.substring(0, 2);
+        //         String? getFirstthreeIndex =
+        //             afterAlldataNewstringg!.substring(0, 3);
+        //         countnumberOfAIIToNotMatch = getFirstthreeIndex;
+
+        //         for (key in map) {
+        //           if (key['identifer'] == getFirsttwoIndex.toString() ||
+        //               key['identifer'] == getFirstthreeIndex.toString()) {
+        //             count++;
+        //           }
+        //         }
+        //       } else {
+        //         String? getFirsttwoIndex =
+        //             afterAlldataNewstringg!.substring(0, 2);
+        //         String? getFirstthreeIndex =
+        //             afterAlldataNewstringg!.substring(0, 3);
+        //         String? getFirstfourIndex =
+        //             afterAlldataNewstringg!.substring(0, 4);
+        //         countnumberOfAIIToNotMatch = getFirstfourIndex;
+
+        //         for (key in map) {
+        //           if (key['identifer'] == getFirsttwoIndex.toString() ||
+        //               key['identifer'] == getFirstthreeIndex.toString() ||
+        //               key['identifer'] == getFirstfourIndex.toString()) {
+        //             count++;
+        //           }
+        //         }
+        //       }
+        //       if (count > 0) {
+        //         CheckValueForTest(afterAlldataNewstringg);
+        //         count = 0;
+        //       } else {
+        //         ShowDialogBox(
+        //             'Invalid AII ${countnumberOfAIIToNotMatch}  At Index ${widget.qrCode!.length - afterAlldataNewstringg!.length + 1}');
+        //         setState(() {
+        //           resultMap = [];
+        //         });
+        //       }
+        //     }
+        //   }
+        // }
+      }
+    }
+  }
+
+  afterGetMaximumLengthThanAgainParsing(Map<String, dynamic> key, int getLength,String getLengthafterCode, int minimumLength) {
+    if (minimumLength > getLengthafterCode.length) {
+      ShowDialogBox("The Required ${key['title']} the minimum Length $minimumLength");
+      resultMap = [];
+    } else if (getLength > getLengthafterCode.length) {
+      String? getFirstVIIStringg = getLengthafterCode;
+
+      if (getFirstVIIStringg.contains(getSpecialcharcatershape!)) {
+        int? getIndex = getFirstVIIStringg.indexOf(getSpecialcharcatershape!);
+        getFirstVIIStringg = getLengthafterCode.substring(0, getIndex);
+        afterAlldataNewstringg =
+            getLengthafterCode.substring(getIndex, getLengthafterCode.length);
+
+            if(getFirstVIIStringg.length >=  minimumLength){
+
+            
+
+        resultMap.add({
+          'identifer': key["identifer"],
+          'title': key["title"],
+          'value': getFirstVIIStringg
+        });
+        // setState(() {
+        //   CheckValueForTest(afterAlldataNewstringg);
+        // });
+        int count = 0;
+        String? countnumberOfAIIToNotMatch;
+        if (afterAlldataNewstringg!.length > 0) {
+          if (afterAlldataNewstringg!.codeUnitAt(0).toString() == "29") {
+            CheckValueForTest(afterAlldataNewstringg);
+          } else {
+            if (afterAlldataNewstringg!.length < 2) {
+              countnumberOfAIIToNotMatch =
+                  afterAlldataNewstringg!.substring(0, 1);
+            } else if (afterAlldataNewstringg!.length < 3) {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              countnumberOfAIIToNotMatch = getFirsttwoIndex;
+
+              for (key in map) {
+                if (key['identifer'] ==
+                    getFirsttwoIndex.toString().toString()) {
+                  count++;
+                }
+              }
+            } else if (afterAlldataNewstringg!.length < 4) {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              String? getFirstthreeIndex =
+                  afterAlldataNewstringg!.substring(0, 3);
+              countnumberOfAIIToNotMatch = getFirstthreeIndex;
+
+              for (key in map) {
+                if (key['identifer'] == getFirsttwoIndex.toString() ||
+                    key['identifer'] == getFirstthreeIndex.toString()) {
+                  count++;
+                }
+              }
+            } else {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              String? getFirstthreeIndex =
+                  afterAlldataNewstringg!.substring(0, 3);
+              String? getFirstfourIndex =
+                  afterAlldataNewstringg!.substring(0, 4);
+              countnumberOfAIIToNotMatch = getFirstfourIndex;
+
+              for (key in map) {
+                if (key['identifer'] == getFirsttwoIndex.toString() ||
+                    key['identifer'] == getFirstthreeIndex.toString() ||
+                    key['identifer'] == getFirstfourIndex.toString()) {
+                  count++;
+                }
+              }
+            }
+
+            if (count > 0) {
+              CheckValueForTest(afterAlldataNewstringg);
+
+              count = 0;
+            } else {
+              ShowDialogBox(
+                  'Invalid AII ${countnumberOfAIIToNotMatch}  At Index ${widget.qrCode!.length - afterAlldataNewstringg!.length + 1}');
+              // ShowDialogBox("FNC Required At point ");
+
+              setState(() {
+                resultMap = [];
+              });
+            }
+          }
+        }}else{
+           ShowDialogBox("The Required ${key['title']} the minimum Length $minimumLength");
+      resultMap = [];
+        }
+      } else {
+        String afterAlldataNewstringgnoExistSpecial = getLengthafterCode;
+        resultMap.add({
+          'identifer': key["identifer"],
+          'title': key["title"],
+          'value': afterAlldataNewstringgnoExistSpecial
+        });
+      }
+    } else if (getLength == getLengthafterCode.length) {
+      String? getFirstVIIStringg = getLengthafterCode;
+
+      if (getFirstVIIStringg.contains(getSpecialcharcatershape!)) {
+        int? getIndex = getFirstVIIStringg.indexOf(getSpecialcharcatershape!);
+        getFirstVIIStringg = getLengthafterCode.substring(0, getIndex);
+        afterAlldataNewstringg =
+            getLengthafterCode.substring(getIndex, getLengthafterCode.length);
+
+        resultMap.add({
+          'identifer': key["identifer"],
+          'title': key["title"],
+          'value': getFirstVIIStringg
+        });
+        // setState(() {
+        //   CheckValueForTest(afterAlldataNewstringg);
+        // });
+        int count = 0;
+        String? countnumberOfAIIToNotMatch;
+        if (afterAlldataNewstringg!.length > 0) {
+          if (afterAlldataNewstringg!.codeUnitAt(0).toString() == "29") {
+            CheckValueForTest(afterAlldataNewstringg);
+          } else {
+            if (afterAlldataNewstringg!.length < 2) {
+              countnumberOfAIIToNotMatch =
+                  afterAlldataNewstringg!.substring(0, 1);
+            } else if (afterAlldataNewstringg!.length < 3) {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              countnumberOfAIIToNotMatch = getFirsttwoIndex;
+
+              for (key in map) {
+                if (key['identifer'] ==
+                    getFirsttwoIndex.toString().toString()) {
+                  count++;
+                }
+              }
+            } else if (afterAlldataNewstringg!.length < 4) {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              String? getFirstthreeIndex =
+                  afterAlldataNewstringg!.substring(0, 3);
+              countnumberOfAIIToNotMatch = getFirstthreeIndex;
+
+              for (key in map) {
+                if (key['identifer'] == getFirsttwoIndex.toString() ||
+                    key['identifer'] == getFirstthreeIndex.toString()) {
+                  count++;
+                }
+              }
+            } else {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              String? getFirstthreeIndex =
+                  afterAlldataNewstringg!.substring(0, 3);
+              String? getFirstfourIndex =
+                  afterAlldataNewstringg!.substring(0, 4);
+              countnumberOfAIIToNotMatch = getFirstfourIndex;
+
+              for (key in map) {
+                if (key['identifer'] == getFirsttwoIndex.toString() ||
+                    key['identifer'] == getFirstthreeIndex.toString() ||
+                    key['identifer'] == getFirstfourIndex.toString()) {
+                  count++;
+                }
+              }
+            }
+
+            if (count > 0) {
+              CheckValueForTest(afterAlldataNewstringg);
+
+              count = 0;
+            } else {
+              ShowDialogBox(
+                  'Invalid AII ${countnumberOfAIIToNotMatch}  At Index ${widget.qrCode!.length - afterAlldataNewstringg!.length + 1}');
+              // ShowDialogBox("FNC Required At point ");
+
+              setState(() {
+                resultMap = [];
+              });
+            }
+          }
+        }
+      } else {
+        String afterAlldataNewstringgnoExistSpecial = getLengthafterCode;
+        resultMap.add({
+          'identifer': key["identifer"],
+          'title': key["title"],
+          'value': afterAlldataNewstringgnoExistSpecial
+        });
+      }
+    } else {
+      String? getFirstVIIStringg = getLengthafterCode.substring(0, getLength);
+
+      if (getFirstVIIStringg.contains(getSpecialcharcatershape!)) {
+        int? getIndex = getFirstVIIStringg.indexOf(getSpecialcharcatershape!);
+
+        // print(getIndex.toString());
+
+        getFirstVIIStringg = getLengthafterCode.substring(0, getIndex);
+        //// print(getFirstVIIStringg);
+
+        afterAlldataNewstringg =
+            getLengthafterCode.substring(getIndex, getLengthafterCode.length);
+
+        resultMap.add({
+          'identifer': key["identifer"],
+          'title': key["title"],
+          'value': getFirstVIIStringg
+        });
+        // setState(() {
+        //   CheckValueForTest(afterAlldataNewstringg);
+        // });
+        int count = 0;
+        String? countnumberOfAIIToNotMatch;
+        if (afterAlldataNewstringg!.length > 0) {
+          if (afterAlldataNewstringg!.codeUnitAt(0).toString() == "29") {
+            CheckValueForTest(afterAlldataNewstringg);
+          } else {
+            if (afterAlldataNewstringg!.length < 2) {
+              countnumberOfAIIToNotMatch =
+                  afterAlldataNewstringg!.substring(0, 1);
+            } else if (afterAlldataNewstringg!.length < 3) {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              countnumberOfAIIToNotMatch = getFirsttwoIndex;
+              for (key in map) {
+                if (key['identifer'] == getFirsttwoIndex.toString()) {
+                  count++;
+                }
+              }
+            } else if (afterAlldataNewstringg!.length < 4) {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              String? getFirstthreeIndex =
+                  afterAlldataNewstringg!.substring(0, 3);
+              countnumberOfAIIToNotMatch = getFirstthreeIndex;
+
+              for (key in map) {
+                if (key['identifer'] == getFirsttwoIndex.toString() ||
+                    key['identifer'] == getFirstthreeIndex.toString()) {
+                  count++;
+                }
+              }
+            } else {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              String? getFirstthreeIndex =
+                  afterAlldataNewstringg!.substring(0, 3);
+              String? getFirstfourIndex =
+                  afterAlldataNewstringg!.substring(0, 4);
+              countnumberOfAIIToNotMatch = getFirstfourIndex;
+
+              for (key in map) {
+                if (key['identifer'] == getFirsttwoIndex.toString() ||
+                    key['identifer'] == getFirstthreeIndex.toString() ||
+                    key['identifer'] == getFirstfourIndex.toString()) {
+                  count++;
+                }
+              }
+            }
+
+            if (count > 0) {
+              CheckValueForTest(afterAlldataNewstringg);
+              count = 0;
+            } else {
+              print(
+                  'Invalid AII ${countnumberOfAIIToNotMatch}  At Index ${widget.qrCode!.length - afterAlldataNewstringg!.length + 1}');
+              // print("FNC Required At point ");
+
+              setState(() {
+                resultMap = [];
+              });
+            }
+          }
+        }
+      } else {
+        afterAlldataNewstringg =
+            getLengthafterCode.substring(getLength, getLengthafterCode.length);
+
+        //// print(getFirstVIIStringg);
+        // print(afterAlldataNewstringg!);
+
+        resultMap.add({
+          'identifer': key["identifer"],
+          'title': key["title"],
+          'value': getFirstVIIStringg
+        });
+
+        // setState(() {
+        //   CheckValueForTest(afterAlldataNewstringg);
+        // });
+        //erro
+        int count = 0;
+        String? countnumberOfAIIToNotMatch;
+        if (afterAlldataNewstringg!.length > 0) {
+          if (afterAlldataNewstringg!.codeUnitAt(0).toString() == "29") {
+            CheckValueForTest(afterAlldataNewstringg);
+          } else {
+            if (afterAlldataNewstringg!.length < 2) {
+              countnumberOfAIIToNotMatch =
+                  afterAlldataNewstringg!.substring(0, 1);
+            } else if (afterAlldataNewstringg!.length < 3) {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              countnumberOfAIIToNotMatch = getFirsttwoIndex;
+
+              for (key in map) {
+                if (key['identifer'] == getFirsttwoIndex.toString()) {
+                  count++;
+                }
+              }
+            } else if (afterAlldataNewstringg!.length < 4) {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              String? getFirstthreeIndex =
+                  afterAlldataNewstringg!.substring(0, 3);
+              countnumberOfAIIToNotMatch = getFirstthreeIndex;
+
+              for (key in map) {
+                if (key['identifer'] == getFirsttwoIndex.toString() ||
+                    key['identifer'] == getFirstthreeIndex.toString()) {
+                  count++;
+                }
+              }
+            } else {
+              String? getFirsttwoIndex =
+                  afterAlldataNewstringg!.substring(0, 2);
+              String? getFirstthreeIndex =
+                  afterAlldataNewstringg!.substring(0, 3);
+              String? getFirstfourIndex =
+                  afterAlldataNewstringg!.substring(0, 4);
+              countnumberOfAIIToNotMatch = getFirstfourIndex;
+
+              for (key in map) {
+                if (key['identifer'] == getFirsttwoIndex.toString() ||
+                    key['identifer'] == getFirstthreeIndex.toString() ||
+                    key['identifer'] == getFirstfourIndex.toString()) {
+                  count++;
+                }
+              }
+            }
+            if (count > 0) {
+              CheckValueForTest(afterAlldataNewstringg);
+              count = 0;
+            } else {
+              print(
+                  'Invalid AII ${countnumberOfAIIToNotMatch}  At Index ${widget.qrCode!.length - afterAlldataNewstringg!.length + 1}');
+              // print("FNC Required At point ");
+
+              setState(() {
+                resultMap = [];
+              });
+            }
+          }
+        }
+      }
+    }
+  }
+
   List<Map<String, dynamic>> data = [];
 
   Future<void> CheckValueExitInDbb() async {
-     List<Map<String,dynamic>>  getLocalstoreData = await dbhelper.fatchTable1();
-// print(getLocalstoreData.length.toString());
-//     log(getLocalstoreData.toString());
-  //  log("/////////////////////////");
-  //  log(resultMap.toString());
+    List<Map<String, dynamic>> getLocalstoreData = await dbhelper.fatchTable1();
 
     for (int j = 0; j < resultMap.length; j++) {
-      if (resultMap[j]['title'].toString().contains( "GTIN")) {
-      
-      //  log(resultMap[j].toString());
-       String? getData = resultMap[j]['value'] ;
-     
+      if (resultMap[j]['title'].toString().contains("GTIN")) {
+        //  log(resultMap[j].toString());
+        String? getData = resultMap[j]['value'];
 
         for (int i = 0; i < getLocalstoreData.length; i++) {
-          if (getData! ==  getLocalstoreData[i]['id']) {
-             setState(() {
-            productName =  getLocalstoreData[i]['plain1'];
-            CompanyName = getLocalstoreData[i]['cline3'];
-            suplychain = getLocalstoreData[i]['sline4'];
+          if (getData! == getLocalstoreData[i]['id']) {
+            setState(() {
+              productName = getLocalstoreData[i]['plain1'];
+              CompanyName = getLocalstoreData[i]['cline3'];
+              suplychain = getLocalstoreData[i]['sline4'];
 
-
-            log("Supplu chain ${suplychain.toString()}");
-             });
+              // log("Supplu chain ${suplychain.toString()}");
+            });
           }
         }
       }
     }
-
-
-
-  
-
   }
 
   void handleClick(int item) {
@@ -1156,14 +1528,8 @@ if(newStringafterSpecialCharcter!.length==1){
   }
 
   final _screenShotController = ScreenshotController();
-  // Future shareScreenshot(Uint8List bytes) async {
-  //   final directory = await getApplicationDocumentsDirectory();
-  //   final image = File("${directory.path}/flutter.png"); //for share ScreenShot
-  //   image.writeAsBytesSync(bytes);
-  //   await Share.shareFiles([image.path]);
-  // }
 
-Future<void> shareScreenshot(Uint8List bytes) async {
+  Future<void> shareScreenshot(Uint8List bytes) async {
     final box = context.findRenderObject() as RenderBox?;
     if (bytes != null) {
       final directory = await getApplicationDocumentsDirectory();
@@ -1179,124 +1545,8 @@ Future<void> shareScreenshot(Uint8List bytes) async {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-
-  
-    // return Screenshot(
-    //   controller: _screenShotController,
-    //   child: Scaffold(
-    //     floatingActionButton: SpeedDial(
-          
-    //       childMargin:
-    //           const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-    //       // icon: Icons.add,
-    //       animatedIcon: AnimatedIcons.menu_close,
-    //       backgroundColor: colorPrimaryLightBlue,
-    //       childPadding: EdgeInsets.symmetric(vertical: 8),
-    //       animationDuration:const Duration(milliseconds: 350),
-          
-
-    //       children: [
-    //         SpeedDialChild(
-    //             child: const ImageIcon(AssetImage("assets/images/copy.png"),color:Colors.white),
-    //             label: "Copy Result",
-    //             labelStyle: const TextStyle(color: Colors.white),
-    //             backgroundColor: copybuttonColor,
-    //             labelBackgroundColor: Colors.black,
-    //             onTap: () async {
-    //               await FlutterClipboard.copy(replaceAllspecialcharacter!);
-    //               Fluttertoast.showToast(
-                    
-    //                   msg: "Result Copied!",
-    //                   toastLength: Toast.LENGTH_SHORT,
-    //                   timeInSecForIosWeb: 2,
-    //                   gravity: ToastGravity.CENTER,
-    //                   backgroundColor: Colors.black);
-    //             }),
-    //         SpeedDialChild(
-    //             child: const ImageIcon(AssetImage("assets/images/share.png"),color:Colors.white),
-    //             label: "Share Result",
-    //             labelStyle: const TextStyle(color: Colors.white),
-    //             labelBackgroundColor: Colors.black,
-    //             backgroundColor: sharebuttonColor,
-    //             onTap: () async {
-    //               await Share.share(replaceAllspecialcharacter!);
-    //             }),
-    //         SpeedDialChild(
-    //             child: const ImageIcon(
-                  
-    //                 AssetImage("assets/images/screenshot.png"),color:Colors.white),
-    //             label: "Share ScreenShot",
-                
-    //             labelStyle: const TextStyle(color: Colors.white),
-    //             labelBackgroundColor: Colors.black,
-    //             backgroundColor: screenshotbuttonColor,
-    //             onTap: () async {
-    //               final shareShotImage =
-    //                   await _screenShotController.capture();
-    //               shareScreenshot(shareShotImage!);
-    //             }),
-    //       ],
-    //     ),
-        
-    //     appBar: AppBar(
-        
-    //       backgroundColor: colorPrimaryLightBlue,
-    //       automaticallyImplyLeading: false,
-    //       elevation: 0,
-    //       centerTitle: false,
-    //       title: Text(
-    //         "Scan Result",
-    //         style: GoogleFonts.inter(
-    //             fontWeight: FontWeight.w500, fontSize: 16.0),
-    //       ),
-    //       actions: [
-    //         IconButton(
-    //             onPressed: () {
-    //               Navigator.pop(context);
-    //             },
-    //             icon: Image.asset("assets/images/back.png")),
-    //         // IconButton(onPressed: (){}, icon: Icon(Icons.more_vert_sharp,color: Colors.white,))
-    //         PopupMenuButton<int>(
-    //           onSelected: (item) => handleClick(item),
-    //           itemBuilder: (context) => [
-    //             PopupMenuItem<int>(
-    //               value: 0,
-    //               child: const Text('Copy to Clipboard'),
-    //               onTap: () async {
-    //                 await FlutterClipboard.copy(replaceAllspecialcharacter!);
-    //                 Fluttertoast.showToast(
-    //                     msg: "Result Copied!",
-    //                     timeInSecForIosWeb: 2,
-    //                     toastLength: Toast.LENGTH_SHORT,
-    //                     gravity: ToastGravity.CENTER,
-    //                     backgroundColor: Colors.black);
-    //               },
-    //             ),
-    //             PopupMenuItem<int>(
-    //               value: 1,
-    //               child: const Text('Share Result'),
-    //               onTap: () async {
-    //                 await Share.share(replaceAllspecialcharacter!);
-    //               },
-    //             ),
-    //             PopupMenuItem<int>(
-    //               value: 2,
-    //               child: const Text('Share ScreenShot'),
-    //               onTap: () async {
-    //                 final shareShotImage =
-    //                     await _screenShotController.capture();
-    //                 shareScreenshot(shareShotImage!);
-    //               },
-    //             ),
-    //           ],
-    //         ),
-    //       ],
-    //     ),
-
-
     double pixelRatio = MediaQuery.of(context).devicePixelRatio;
     return Screenshot(
       controller: _screenShotController,
@@ -1304,7 +1554,7 @@ Future<void> shareScreenshot(Uint8List bytes) async {
         floatingActionButton: SpeedDial(
           childMargin: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
           // icon: Icons.add,
-           icon: Icons.share,
+          icon: Icons.share,
           activeIcon: Icons.close,
           backgroundColor: colorPrimaryLightBlue,
           childPadding: EdgeInsets.symmetric(vertical: 8),
@@ -1319,7 +1569,7 @@ Future<void> shareScreenshot(Uint8List bytes) async {
                 backgroundColor: copybuttonColor,
                 labelBackgroundColor: Colors.black,
                 onTap: () async {
-                  await FlutterClipboard.copy(replaceAllspecialcharacter!);
+                  await FlutterClipboard.copy(getNewSpaecialcharacter!);
                   Fluttertoast.showToast(
                       msg: "Result Copied!",
                       toastLength: Toast.LENGTH_SHORT,
@@ -1336,7 +1586,7 @@ Future<void> shareScreenshot(Uint8List bytes) async {
                 backgroundColor: sharebuttonColor,
                 onTap: () async {
                   final box = context.findRenderObject() as RenderBox?;
-                  await Share.share(replaceAllspecialcharacter!,
+                  await Share.share(getNewSpaecialcharacter!,
                       sharePositionOrigin:
                           box!.localToGlobal(Offset.zero) & box.size);
                 }),
@@ -1356,14 +1606,14 @@ Future<void> shareScreenshot(Uint8List bytes) async {
           ],
         ),
         appBar: AppBar(
-         backgroundColor: colorPrimaryLightBlue,
+          backgroundColor: colorPrimaryLightBlue,
           automaticallyImplyLeading: false,
           elevation: 0,
           centerTitle: false,
           title: Text(
             "Scan Result",
-            style: GoogleFonts.inter(
-                fontWeight: FontWeight.w500, fontSize: 16.0),
+            style:
+                GoogleFonts.inter(fontWeight: FontWeight.w500, fontSize: 16.0),
           ),
           actions: [
             IconButton(
@@ -1379,7 +1629,7 @@ Future<void> shareScreenshot(Uint8List bytes) async {
                   value: 0,
                   child: const Text('Copy to Clipboard'),
                   onTap: () async {
-                    await FlutterClipboard.copy(replaceAllspecialcharacter!);
+                    await FlutterClipboard.copy(getNewSpaecialcharacter!);
                     Fluttertoast.showToast(
                         msg: "Result Copied!",
                         timeInSecForIosWeb: 2,
@@ -1393,7 +1643,7 @@ Future<void> shareScreenshot(Uint8List bytes) async {
                   child: const Text('Share Result'),
                   onTap: () async {
                     final box = context.findRenderObject() as RenderBox?;
-                    await Share.share(replaceAllspecialcharacter!,
+                    await Share.share(getNewSpaecialcharacter!,
                         sharePositionOrigin:
                             box!.localToGlobal(Offset.zero) & box.size);
                   },
@@ -1412,8 +1662,6 @@ Future<void> shareScreenshot(Uint8List bytes) async {
             ),
           ],
         ),
-
-        
         body: SafeArea(
           child: Column(
             children: [
@@ -1424,72 +1672,76 @@ Future<void> shareScreenshot(Uint8List bytes) async {
                 color: resultbackgroundColor,
                 child: Column(
                   children: [
-                   getSpecialCharacter == '29' ?  Text(
-                   "DATA MATRIX (GS1)",
-                      style: GoogleFonts.roboto(
-                          color: Colors.black.withOpacity(0.5),
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ):Text(
-                 'DATA MATRIX',
-                      style: GoogleFonts.roboto(
-                          color: Colors.black.withOpacity(0.5),
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold),
-                    ),
+                    resultMap.isNotEmpty
+                        ? Text(
+                            "DATA MATRIX (GS1)",
+                            style: GoogleFonts.roboto(
+                                color: Colors.black.withOpacity(0.5),
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                          )
+                        : Text(
+                            'DATA MATRIX',
+                            style: GoogleFonts.roboto(
+                                color: Colors.black.withOpacity(0.5),
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                          ),
                     const SizedBox(
                       height: 8,
                     ),
-        
-                  getSpecialCharacter != '29' ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                          Text('${widget.qrCode}'),
 
-                  ],):  Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                        children: qrResultConvertList.map((item) {
-                      if (item == widget.qrCode![0]) {
-                        return const Text(
-                          'FNC',
-                          style: TextStyle(
-                            color: colorPrimaryLightBlue,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        );
-                      } else {
-                        return Text(item.toString(),style: TextStyle(
-                          color: Colors.black54,
-                          
-                          fontSize: 16
-                        ),);
-                      }
-                      // if (item < 100) {
-                      //   return Padding(
-                      //     padding: const EdgeInsets.all(8.0),
-                      //     child: Text(
-                      //       item.toString(),
-                      //       style: const TextStyle(
-                      //         fontWeight: FontWeight.bold,
-                      //         color: Colors.red,
-                      //       ),
-                      //     ),
-                      //   );
-                      // }
-                      // if (item == 100) {
-                      //   return Padding(
-                      //     padding: const EdgeInsets.all(8.0),
-                      //     child: Text(
-                      //       item.toString(),
-                      //       style: TextStyle(
-                      //         fontWeight: FontWeight.bold,
-                      //         color: Colors.green,
-                      //       ),
-                      //     ),
-                      //   );
-                      // }
-                    }).toList()),
+                    getSpecialCharacter != '29'
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('${widget.qrCode}'),
+                            ],
+                          )
+                        : Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: qrResultConvertList.map((item) {
+                              if (item == widget.qrCode![0]) {
+                                return const Text(
+                                  'FNC',
+                                  style: TextStyle(
+                                    color: colorPrimaryLightBlue,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                );
+                              } else {
+                                return Text(
+                                  item.toString(),
+                                  style: TextStyle(
+                                      color: Colors.black54, fontSize: 16),
+                                );
+                              }
+                              // if (item < 100) {
+                              //   return Padding(
+                              //     padding: const EdgeInsets.all(8.0),
+                              //     child: Text(
+                              //       item.toString(),
+                              //       style: const TextStyle(
+                              //         fontWeight: FontWeight.bold,
+                              //         color: Colors.red,
+                              //       ),
+                              //     ),
+                              //   );
+                              // }
+                              // if (item == 100) {
+                              //   return Padding(
+                              //     padding: const EdgeInsets.all(8.0),
+                              //     child: Text(
+                              //       item.toString(),
+                              //       style: TextStyle(
+                              //         fontWeight: FontWeight.bold,
+                              //         color: Colors.green,
+                              //       ),
+                              //     ),
+                              //   );
+                              // }
+                            }).toList()),
                     // Text(
                     //   "${widget.qrCode}",
                     //   style: GoogleFonts.roboto(
@@ -1503,208 +1755,224 @@ Future<void> shareScreenshot(Uint8List bytes) async {
               const SizedBox(
                 height: 20,
               ),
-        getSpecialCharacter != '29' ? Container(
-          alignment: Alignment.center,
-          child: Center(
-
-         child: Text('Not Found Valid AI',style: TextStyle(color: Colors.red,fontSize: 18,fontWeight: FontWeight.bold),),
-
-
-        ),):   Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                  resultMap.length == 0 ?   Text(
-                   'Invalid Data Matrix',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.red,
+              getSpecialCharacter != '29'
+                  ? Container(
+                      alignment: Alignment.center,
+                      child: Center(
+                        child: Text(
+                          'Not Found Valid AI',
+                          style: TextStyle(
+                              color: Colors.red,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
-                    ):
-                    Text(
-                    "SCANNED INFORMATION",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.black.withOpacity(0.5),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                     Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        for (int i = 0; i < resultMap.length; i++)
-                          Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 5),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                    child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      '${resultMap[i]['title']}',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: colorPrimaryLightBlue),
-                                    ),
-                                    Text(
-                                      '(${resultMap[i]['identifer']}): ',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: colorPrimaryLightBlue),
-                                    ),
-                                  ],
-                                )),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Expanded(
-                                    flex: 3,
-                                    child: Text(
-                                      '${resultMap[i]['value']}',
-                                      textAlign: TextAlign.start,
+                    )
+                  : Expanded(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              resultMap.length == 0
+                                  ? Text(
+                                      'Invalid Data Matrix',
                                       style: TextStyle(
-                                        color:Colors.black54
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.red,
                                       ),
-                                    )),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                              ],
-                            ),
-                          ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
+                                    )
+                                  : Text(
+                                      "SCANNED INFORMATION",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                        color: Colors.black.withOpacity(0.5),
+                                      ),
+                                    ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  for (int i = 0; i < resultMap.length; i++)
+                                    Container(
+                                      alignment: Alignment.center,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 5),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                              child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                '${resultMap[i]['title']}',
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: colorPrimaryLightBlue),
+                                              ),
+                                              Text(
+                                                '(${resultMap[i]['identifer']}): ',
+                                                style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: colorPrimaryLightBlue),
+                                              ),
+                                            ],
+                                          )),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Expanded(
+                                              child: Text(
+                                            '${resultMap[i]['value']}',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(color: Colors.black54),
+                                          )),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                ],
+                              ),
+
+                              const SizedBox(
                 height: 20,
               ),
-             productName == null && CompanyName == null && suplychain ==null ? Container(): Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "MASTER DATA",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.black.withOpacity(0.5),
+              productName == null && CompanyName == null && suplychain == null
+                  ? Container()
+                  : Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "MASTER DATA",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.black.withOpacity(0.5),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          productName == null
+                              ? Center()
+                              : Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Expanded(
+                                      child: Text(
+                                        'PRODUCT: ',
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: colorPrimaryLightBlue),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: productName == null
+                                          ? Text('')
+                                          : Text(
+                                              '$productName',
+                                              style: TextStyle(
+                                                  color: Colors.black54),
+                                              // style: const TextStyle(
+                                              //     fontWeight: FontWeight.bold,
+                                              //     color: blueColor1),
+                                            ),
+                                    ),
+                                  ],
+                                ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          CompanyName == null
+                              ? Center()
+                              : Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Expanded(
+                                      child: Text(
+                                        'COMPANY: ',
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: colorPrimaryLightBlue),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: CompanyName == null
+                                          ? Text('')
+                                          : Text(
+                                              '$CompanyName',
+                                              style: TextStyle(
+                                                  color: Colors.black54),
+                                              //  style: const TextStyle(
+                                              //      fontWeight: FontWeight.bold,
+                                              //      color: blueColor1),
+                                            ),
+                                    ),
+                                  ],
+                                ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          suplychain == null && suplychain.runtimeType == Null
+                              ? Container()
+                              : Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Expanded(
+                                      child: Text(
+                                        'SUPPLY CHAIN: ',
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            color: colorPrimaryLightBlue),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(
+                                        '${suplychain}',
+                                        style: TextStyle(color: Colors.black54),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                        ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                 productName == null ? Center():    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Expanded(
-                          child: Text(
-                            'PRODUCT: ',
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: colorPrimaryLightBlue),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child:productName == null ? Text('') : Text(
-                            '$productName',
-                             style: TextStyle(
-                                      color:Colors.black54
-                                    ),
-                            // style: const TextStyle(
-                            //     fontWeight: FontWeight.bold,
-                            //     color: blueColor1),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                 CompanyName == null ? Center():    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Expanded(
-                          child: Text(
-                            'COMPANY: ',
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: colorPrimaryLightBlue),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child: CompanyName == null ? Text('') : Text(
-                            '$CompanyName',
-                             style: TextStyle(
-                                      color:Colors.black54
-                                    ),
-                            //  style: const TextStyle(
-                            //      fontWeight: FontWeight.bold,
-                            //      color: blueColor1),
-                          ),
-                        ),
-                      ],
-                    ),
+                            ],
 
-                     const SizedBox(
-                      height: 5,
-                    ),
-                  suplychain==null && suplychain.runtimeType == Null ? Container(): Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Expanded(
-                          child: Text(
-                            'SUPPLY CHAIN: ',
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: colorPrimaryLightBlue),
                           ),
                         ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Expanded(
-                          flex: 2,
-                          child:Text(
-                            '${suplychain}',
-                             style: TextStyle(
-                                      color:Colors.black54
-                                    ),
-                         
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-
-
-           
+                      ),
+                  ),
+              
             ],
           ),
         ),
