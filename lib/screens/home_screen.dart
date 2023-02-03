@@ -1,8 +1,14 @@
+
+
+
+import 'dart:developer';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:pharma_trax_scanner/Widgets/db_helper.dart';
 import 'package:pharma_trax_scanner/screens/barcode_scanner.dart';
 import 'package:pharma_trax_scanner/screens/data_matrix_scanner.dart';
@@ -10,13 +16,14 @@ import 'package:pharma_trax_scanner/screens/signinpage.dart';
 import 'package:pharma_trax_scanner/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../Widgets/app_drawer.dart';
-import 'dart:developer';
 
 import '../providers/auth_provider.dart';
+import '../utils/globalValue.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -30,11 +37,11 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
   final dbhelper = DataBaseHelper.instance;
   SharedPreferences? prefs;
-
   AuthProvider provider = AuthProvider();
 
   @override
   void initState() {
+          indexClicked = 0;
     getSharePrefenceValue();
     checkDBUpdate();
     // SaveValueInPrefecnce();
@@ -62,12 +69,12 @@ class _HomePageState extends State<HomePage> {
     String? getExpireSecond = prefs!.getString('isexpireSecond');
     String? getexpiryDate = prefs!.getString('iscurentTime');
 
-    log(getexpiryDate.toString());
+    // log(getexpiryDate.toString());
 
     DateTime? now = DateTime.now();
     final getdiffernce = now.difference(DateTime.parse(getexpiryDate!));
 
-    log(getdiffernce.inSeconds.toString());
+    //log(getdiffernce.inSeconds.toString());
 
     if (getdiffernce.inSeconds >= double.parse(getExpireSecond!)) {
       LogoutFunction();
@@ -100,12 +107,11 @@ class _HomePageState extends State<HomePage> {
       prefs!.setBool('isLogin', true);
     }
 
+    var width2 = MediaQuery.of(context).size.width;
+    var height2 = MediaQuery.of(context).size.height;
 
-       var width2 = MediaQuery.of(context).size.width;
-var height2 = MediaQuery.of(context).size.height;
-
-var padding = MediaQuery.of(context).padding;
-var safeHeight = height2 - padding.top - padding.bottom;
+    var padding = MediaQuery.of(context).padding;
+    var safeHeight = height2 - padding.top - padding.bottom;
 
 //log(safeHeight.toString());
 
@@ -195,51 +201,53 @@ var safeHeight = height2 - padding.top - padding.bottom;
               Expanded(
                 child: Container(
                   // color: Colors.red,
-                  
+
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                 
-                  
-
                     children: [
                       Container(
                         //color: Color,
                         child: Image.asset(
                           'assets/images/pharmatrax2.png',
-                          height:
-                              safeHeight >700 ? MediaQuery.of(context).size.height * 0.2 - 65:  MediaQuery.of(context).size.height * 0.2 - 40,
+                          height: safeHeight > 700
+                              ? MediaQuery.of(context).size.height * 0.2 - 65
+                              : MediaQuery.of(context).size.height * 0.2 - 40,
                         ),
                       ),
-
-                     
-                     
-                       Text(
-                          "Pakistan's first Track and Trace Serialization \nSolution Complete End to End Turnkey Solution\nMarket Leader in Track and Trace Solutions",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                            color: textColor,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 13,
-                          ),
+                      Text(
+                        "Pakistan's first Track and Trace Serialization \nSolution Complete End to End Turnkey Solution\nMarket Leader in Track and Trace Solutions",
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.inter(
+                          color: textColor,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 13,
                         ),
-                      
+                      ),
                     ],
                   ),
                 ),
               ),
               Expanded(
                 child: Container(
-                   
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => const BarCodeScanner()));
+                        onTap: () async {
+                          PermissionStatus camerstatus = await Permission.camera.request();
+                          if (camerstatus == PermissionStatus.granted) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => const BarCodeScanner()));
+                          }
+                          if(camerstatus == PermissionStatus.denied){
+                            Fluttertoast.showToast(msg: "You need to provide camera permission");
+                          }
+                           if(camerstatus == PermissionStatus.permanentlyDenied) {
+                       openAppSettings();
+                          }
                         },
                         child: Container(
                           color: colorPrimaryLightBlue,
@@ -251,7 +259,8 @@ var safeHeight = height2 - padding.top - padding.bottom;
                                 height: 50,
                                 width: 50,
                                 color: colorPrimaryLightDark,
-                                child: Image.asset('assets/images/code_128.png'),
+                                child:
+                                    Image.asset('assets/images/code_128.png'),
                               ),
                               Expanded(
                                 child: Text(
@@ -272,9 +281,21 @@ var safeHeight = height2 - padding.top - padding.bottom;
                         height: 20,
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (_) => DataMatrixSacnner()));
+                        onTap: () async {
+                        PermissionStatus camerstatus = await Permission.camera.request();
+
+
+                          if (camerstatus == PermissionStatus.granted) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => DataMatrixSacnner()));
+                          }
+                          if(camerstatus == PermissionStatus.denied){
+                            Fluttertoast.showToast(msg: "You need to provide camera permission");
+                          }
+                           if(camerstatus == PermissionStatus.permanentlyDenied) {
+                             PermissionStatus camerstatus = await Permission.camera.request();
+                       openAppSettings();
+                          }
                         },
                         child: Container(
                           color: colorPrimaryLightBlue,
@@ -286,7 +307,8 @@ var safeHeight = height2 - padding.top - padding.bottom;
                                 height: 50,
                                 width: 50,
                                 color: colorPrimaryLightDark,
-                                child: Image.asset('assets/images/data_matrix.png'),
+                                child: Image.asset(
+                                    'assets/images/data_matrix.png'),
                               ),
                               Expanded(
                                 child: Text(
@@ -307,13 +329,9 @@ var safeHeight = height2 - padding.top - padding.bottom;
                   ),
                 ),
               ),
-            
               Expanded(
                 child: Container(
-                     
-         
                   padding: const EdgeInsets.symmetric(vertical: 0),
-              
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -346,7 +364,8 @@ var safeHeight = height2 - padding.top - padding.bottom;
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () async {
                                     // ignore: deprecated_member_use
-                                    await launch("mailto:CONTACT@PHARMATRAX.PK?");
+                                    await launch(
+                                        "mailto:CONTACT@PHARMATRAX.PK?");
                                   }),
                           ],
                         ),
@@ -396,13 +415,17 @@ var safeHeight = height2 - padding.top - padding.bottom;
                         ),
                       ),
                       Container(
-                        height: safeHeight > 700 ?  MediaQuery.of(context).size.height * 0.2 - 60 :MediaQuery.of(context).size.height * 0.2 - 40,
-                        padding:  EdgeInsets.symmetric(
-                            horizontal:safeHeight > 700 ? 110 :80, vertical: 5),
+                        height: safeHeight > 700
+                            ? MediaQuery.of(context).size.height * 0.2 - 60
+                            : MediaQuery.of(context).size.height * 0.2 - 40,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: safeHeight > 700 ? 110 : 80,
+                            vertical: 5),
                         // height: 120,
                         // width: 120,
-                        child: Image.asset('assets/images/zauq.png',
-                        fit: BoxFit.fill,
+                        child: Image.asset(
+                          'assets/images/zauq.png',
+                          fit: BoxFit.fill,
                         ),
                       ),
                     ],

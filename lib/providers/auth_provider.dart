@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:async';
-import 'dart:developer';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -85,7 +84,7 @@ class AuthProvider with ChangeNotifier {
         if (response.statusCode == 200) {
           Map getResponseData = jsonDecode(response.body);
 
-          log(getResponseData.toString());
+         // log(getResponseData.toString());
           _expirySecond = getResponseData['expires_in'];
           _token = getResponseData['access_token'];
 
@@ -136,7 +135,7 @@ class AuthProvider with ChangeNotifier {
 
       if (response.statusCode == 200) {
         Map getApiData = jsonDecode(response.body);
-        log(getApiData.toString());
+      //  log(getApiData.toString());
 
         final dbhelper = DataBaseHelper.instance;
         List<Map<String, dynamic>> data = [];
