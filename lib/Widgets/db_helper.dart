@@ -1,6 +1,4 @@
 import 'dart:io';
-
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
@@ -71,7 +69,7 @@ class DataBaseHelper {
   }
 
   // Functiuons to perform some functionality with database table #1 name "products"
-  bool _check = true;
+
   Future<int?> insertTable1(Map<String, dynamic> row) async {
     db = await instance.database;
     // if (db !=null) {

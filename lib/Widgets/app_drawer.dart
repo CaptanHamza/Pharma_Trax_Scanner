@@ -2,9 +2,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../main.dart';
 import '../providers/auth_provider.dart';
 import '../utils/colors.dart';
+import '../utils/globalValue.dart';
 
 class AppDrawer extends StatefulWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -13,13 +13,14 @@ class AppDrawer extends StatefulWidget {
   State<AppDrawer> createState() => _AppDrawerState();
 }
 
-int indexClicked = 0;
+
 
 class _AppDrawerState extends State<AppDrawer> {
   SharedPreferences? prefs;
 
   @override
   void initState() {
+    
     super.initState();
     getSharePrefenceValue();
   }
@@ -146,6 +147,10 @@ class _AppDrawerState extends State<AppDrawer> {
             Navigator.of(context).pushReplacementNamed('/scan_history');
           },
         ),
+
+
+       
+
         ListTile(
           selected: indexClicked == 2,
           selectedTileColor: textColor.withOpacity(0.2),
@@ -175,6 +180,39 @@ class _AppDrawerState extends State<AppDrawer> {
             Navigator.of(context).pushReplacementNamed('/update_database');
           },
         ),
+         ListTile(
+          selected: indexClicked == 8,
+          selectedTileColor: textColor.withOpacity(0.2),
+          leading: SizedBox(
+            
+            height: 28,
+            width: 28,
+            child: Image.asset(
+              "assets/images/check_digit.png",
+              
+              color: indexClicked == 8  
+                  ? colorPrimaryLightBlue
+                  : Colors.black.withOpacity(0.6),
+            ),
+          ),
+          title: Text(
+            "Calculate Check Digit",
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              color: indexClicked == 8
+                  ? colorPrimaryLightBlue
+                  : Colors.black.withOpacity(0.6),
+            ),
+          ),
+          onTap: () {
+            setState(() {
+              indexClicked = 8;
+            });
+            Navigator.of(context).pushReplacementNamed('/check_digit');
+          },
+        ),
+
+
         ListTile(
           selected: indexClicked == 3,
           selectedTileColor: textColor.withOpacity(0.2),

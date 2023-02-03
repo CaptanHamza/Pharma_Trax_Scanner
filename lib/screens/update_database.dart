@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -13,6 +12,8 @@ import 'package:pharma_trax_scanner/providers/auth_provider.dart';
 import 'package:pharma_trax_scanner/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../utils/globalValue.dart';
 
 class UpdateDatabase extends StatefulWidget {
   const UpdateDatabase({Key? key}) : super(key: key);
@@ -122,6 +123,7 @@ class _UpdateDatabaseState extends State<UpdateDatabase> {
     }
 
     Future<bool> _onWillPop() async {
+            indexClicked = 0;
       await Navigator.of(context).pushReplacementNamed('/home_screen');
       return true;
     }

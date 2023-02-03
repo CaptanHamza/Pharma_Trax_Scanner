@@ -14,6 +14,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:pharma_trax_scanner/Widgets/db_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/globalValue.dart';
+import '../utils/globalValueList.dart';
 
 class QRCodeResultScreen extends StatefulWidget {
   String? qrCode;
@@ -29,550 +31,9 @@ class QRCodeResultScreen extends StatefulWidget {
 }
 
 class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
-  List<Map<String, dynamic>> map = [
-    {'identifer': "00", 'title': "SSCC", 'length': 18},
-    {'identifer': "01", 'title': "GTIN", 'length': 14},
-    {'identifer': "02", 'title': "CONTENT", 'length': 14},
-    {
-      'identifer': "10",
-      'title': "BATCH/LOT",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {'identifer': "11", 'title': "PROD DATE", 'length': 6},
-    {'identifer': "12", 'title': "DUE DATE", 'length': 6},
-    {'identifer': "13", 'title': "PACK DATE", 'length': 6},
-    {'identifer': "15", 'title': "BEST BY", 'length': 6},
-    {'identifer': "16", 'title': "SELL BY", 'length': 6},
-    {'identifer': "17", 'title': "EXPIRY", 'length': 6},
-    {'identifer': "20", 'title': "VARIANT", 'length': 2},
-    {
-      'identifer': "21",
-      'title': "SERIAL",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "22",
-      'title': "CPV",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "240",
-      'title': "ADDITIONAL ID",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "241",
-      'title': "CUST. PART NO.",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "242",
-      'title': "MTO VARIANT",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "243",
-      'title': "PCN",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "250",
-      'title': "SECONDARY SERIAL",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "251",
-      'title': "REF. TO SOURCE",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "253",
-      'title': "GDTI",
-      "minimumLength": 13,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "254",
-      'title': "GLN EXTENSION COMPONENT",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "255",
-      'title': "GCN",
-      "minimumLength": 13,
-      "maximumLength": 25
-    },
-    {
-      'identifer': "30",
-      'title': "VAR. COUNT",
-      "minimumLength": 1,
-      "maximumLength": 8
-    },
-    {'identifer': "310n", 'title': "NET WEIGHT (kg)", 'length': 6},
-    {'identifer': "311n", 'title': "LENGTH (m)", 'length': 6},
-    {'identifer': "312n", 'title': "WIDTH (m)", 'length': 6},
-    {'identifer': "313n", 'title': "HEIGHT (m)", 'length': 6},
-    {'identifer': "314n", 'title': "AREA (m2)", 'length': 6},
-    {'identifer': "315n", 'title': "NET VOLUME (l)", 'length': 6},
-    {'identifer': "316n", 'title': "NET VOLUME (m3)", 'length': 6},
-    {'identifer': "320n", 'title': "NET WEIGHT (lb)", 'length': 6},
-    {'identifer': "321n", 'title': "LENGTH (i)", 'length': 6},
-    {'identifer': "322n", 'title': "LENGTH (f)", 'length': 6},
-    {'identifer': "323n", 'title': "LENGTH (y)", 'length': 6},
-    {'identifer': "324n", 'title': "WIDTH (i)", 'length': 6},
-    {'identifer': "325n", 'title': "WIDTH (f)", 'length': 6},
-    {'identifer': "326n", 'title': "WIDTH (y)", 'length': 6},
-    {'identifer': "327n", 'title': "HEIGHT (i)", 'length': 6},
-    {'identifer': "328n", 'title': "HEIGHT (f)", 'length': 6},
-    {'identifer': "329n", 'title': "HEIGHT (y)", 'length': 6},
-    {'identifer': "330n", 'title': " GROSS WEIGHT (kg)", 'length': 6},
-    {'identifer': "331n", 'title': "LENGTH (m), log", 'length': 6},
-    {'identifer': "332n", 'title': "WIDTH (m), log", 'length': 6},
-    {'identifer': "333n", 'title': "HEIGHT (m), log", 'length': 6},
-    {'identifer': "334n", 'title': "AREA (m2), log", 'length': 6},
-    {'identifer': "335n", 'title': "VOLUME (l), log", 'length': 6},
-    {'identifer': "336n", 'title': "VOLUME (m3), log", 'length': 6},
-    {'identifer': "337n", 'title': "KG PER m²", 'length': 6},
-    {'identifer': "340n", 'title': "GROSS WEIGHT (lb)", 'length': 6},
-    {'identifer': "341n", 'title': "LENGTH (i), log", 'length': 6},
-    {'identifer': "342n", 'title': "LENGTH (f), log", 'length': 6},
-    {'identifer': "343n", 'title': "LENGTH (y), log", 'length': 6},
-    {'identifer': "344n", 'title': "WIDTH (i), log", 'length': 6},
-    {'identifer': "345n", 'title': "WIDTH (f), log", 'length': 6},
-    {'identifer': "346n", 'title': "WIDTH (y), log", 'length': 6},
-    {'identifer': "347n", 'title': "HEIGHT (i), log", 'length': 6},
-    {'identifer': "348n", 'title': "HEIGHT (f), log", 'length': 6},
-    {'identifer': "349n", 'title': "HEIGHT (y), log", 'length': 6},
-    {'identifer': "350n", 'title': "AREA (i2)", 'length': 6},
-    {'identifer': "351n", 'title': "AREA (f2)", 'length': 6},
-    {'identifer': "352n", 'title': "AREA (y2)", 'length': 6},
-    {'identifer': "353n", 'title': "AREA (i2), log", 'length': 6},
-    {'identifer': "354n", 'title': "AREA (f2), log", 'length': 6},
-    {'identifer': "355n", 'title': "AREA (y2), log", 'length': 6},
-    {'identifer': "356n", 'title': "NET WEIGHT (t)", 'length': 6},
-    {'identifer': "357n", 'title': "NET VOLUME (oz)", 'length': 6},
-    {'identifer': "360n", 'title': "NET VOLUME (q)", 'length': 6},
-    {'identifer': "361n", 'title': "NET VOLUME (g)", 'length': 6},
-    {'identifer': "362n", 'title': "VOLUME (q), log", 'length': 6},
-    {'identifer': "363n", 'title': "VOLUME (g), log", 'length': 6},
-    {'identifer': "364n", 'title': "VOLUME (i3)", 'length': 6},
-    {'identifer': "365n", 'title': "VOLUME (f3)", 'length': 6},
-    {'identifer': "366n", 'title': "VOLUME (y3)", 'length': 6},
-    {'identifer': "367n", 'title': "VOLUME (i3), log", 'length': 6},
-    {'identifer': "368n", 'title': "VOLUME (f3), log", 'length': 6},
-    {'identifer': "369n", 'title': "VOLUME (y3), log", 'length': 6},
-    {
-      'identifer': "37",
-      'title': "COUNT",
-      "minimumLength": 1,
-      "maximumLength": 8
-    },
-    {
-      'identifer': "390n",
-      'title': "AMOUNT",
-      "minimumLength": 1,
-      "maximumLength": 15
-    },
-    {
-      'identifer': "391n",
-      'title': "AMOUNT",
-      "minimumLength": 3,
-      "maximumLength": 18
-    },
-    {
-      'identifer': "392n",
-      'title': "PRICE",
-      "minimumLength": 1,
-      "maximumLength": 15
-    },
-    {
-      'identifer': "393n",
-      'title': "PRICE",
-      "minimumLength": 3,
-      "maximumLength": 18
-    },
-    {
-      'identifer': "394n",
-      'title': "PRCNT OFF",
-      'length': 4,
-      "requiredFNC1": true
-    },
-    {
-      'identifer': "400",
-      'title': "ORDER NUMBER",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "401",
-      'title': "GINC",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {'identifer': "402", 'title': "GSIN", 'length': 17, "requiredFNC1": true},
-    {
-      'identifer': "403",
-      'title': "ROUTE",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {'identifer': "410", 'title': "SHIP TO LOC", 'length': 13},
-    {'identifer': "411", 'title': "BILL TO", 'length': 13},
-    {'identifer': "412", 'title': "PURCHASE FROM", 'length': 13},
-    {'identifer': "413", 'title': "SHIP FOR LOC", 'length': 13},
-    {'identifer': "414", 'title': "LOC No", 'length': 13},
-    {'identifer': "415", 'title': "PAY TO", 'length': 13},
-    {'identifer': "416", 'title': "PROD/SERV LOC", 'length': 13},
-    {
-      'identifer': "420",
-      'title': "SHIP TO POST",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "421",
-      'title': "SHIP TO POST",
-      "minimumLength": 3,
-      "maximumLength": 12
-    },
-    {'identifer': "422", 'title': "ORIGIN", 'length': 3, "requiredFNC1": true},
-    {
-      'identifer': "423",
-      'title': "COUNTRY - INITIAL PROCESS.",
-      "minimumLength": 3,
-      "maximumLength": 15
-    },
-    {
-      'identifer': "424",
-      'title': "COUNTRY - PROCESS.",
-      'length': 3,
-      "requiredFNC1": true
-    },
-    {
-      'identifer': "425",
-      'title': "COUNTRY - DISASSEMBLY",
-      "minimumLength": 3,
-      "maximumLength": 15
-    },
-    {
-      'identifer': "426",
-      'title': "COUNTRY – FULL PROCESS",
-      'length': 3,
-      "requiredFNC1": true
-    },
-    {
-      'identifer': "427",
-      'title': "ORIGIN SUBDIVISION",
-      "minimumLength": 1,
-      "maximumLength": 3
-    },
-    {'identifer': "7001", 'title': "NSN", 'length': 13, "requiredFNC1": true},
-    {
-      'identifer': "7002",
-      'title': "MEAT CUT",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "7003",
-      'title': "EXPIRY TIME",
-      'length': 10,
-      "requiredFNC1": true
-    },
-    {
-      'identifer': "7004",
-      'title': "ACTIVE POTENCY",
-      "minimumLength": 1,
-      "maximumLength": 4
-    },
-    {
-      'identifer': "7005",
-      'title': "CATCH AREA",
-      "minimumLength": 1,
-      "maximumLength": 12
-    },
-    {
-      'identifer': "7006",
-      'title': "FIRST FREEZE DATE",
-      'length': 6,
-      "requiredFNC1": true
-    },
-    {
-      'identifer': "7007",
-      'title': "HARVEST DATE",
-      "minimumLength": 6,
-      "maximumLength": 12
-    },
-    {
-      'identifer': "7008",
-      'title': "AQUATIC SPECIES",
-      "minimumLength": 1,
-      "maximumLength": 3
-    },
-    {
-      'identifer': "7009",
-      'title': "FISHING GEAR TYPE",
-      "minimumLength": 1,
-      "maximumLength": 10
-    },
-    {
-      'identifer': "7010",
-      'title': "PROD METHOD",
-      "minimumLength": 1,
-      "maximumLength": 2
-    },
-    {
-      'identifer': "7020",
-      'title': "REFURB LOT",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "7021",
-      'title': "FUNC STAT",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "7022",
-      'title': "REV STAT",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "7023",
-      'title': "GIAI – ASSEMBLY",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "703s",
-      'title': "PROCESSOR # s",
-      "minimumLength": 3,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "710",
-      'title': "NHRN PZN",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "711",
-      'title': "NHRN CIP",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "712",
-      'title': "NHRN CN",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "713",
-      'title': "NHRN DRN",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "714",
-      'title': "NHRN AIM",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "...",
-      'title': "NHRN xxx",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "8001",
-      'title': "DIMENSIONS",
-      'length': 14,
-      "requiredFNC1": true
-    },
-    {
-      'identifer': "8002",
-      'title': "CMT No",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "8003",
-      'title': "GRAI",
-      "minimumLength": 14,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "8004",
-      'title': "GIAI",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "8005",
-      'title': "PRICE PER UNIT",
-      'length': 6,
-      "requiredFNC1": true
-    },
-    {
-      'identifer': "8006",
-      'title': "ITIP or GCTIN",
-      'length': 18,
-      "requiredFNC1": true
-    },
-    {
-      'identifer': "8007",
-      'title': "IBAN",
-      "minimumLength": 1,
-      "maximumLength": 34
-    },
-    {
-      'identifer': "8008",
-      'title': "PROD TIME",
-      "minimumLength": 8,
-      "maximumLength": 12
-    },
-    {
-      'identifer': "8010",
-      'title': "CPID",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "8011",
-      'title': "CPID SERIAL",
-      "minimumLength": 1,
-      "maximumLength": 12
-    },
-    {
-      'identifer': "8012",
-      'title': "VERSION",
-      "minimumLength": 1,
-      "maximumLength": 20
-    },
-    {
-      'identifer': "8013",
-      'title': "GMN or BUDI-DI",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "8017",
-      'title': "GSRN - PROVIDER",
-      'length': 18,
-      "requiredFNC1": true
-    },
-    {
-      'identifer': "8018",
-      'title': "GSRN - RECIPIENT",
-      'length': 18,
-      "requiredFNC1": true
-    },
-    {
-      'identifer': "8019",
-      'title': "SRIN",
-      "minimumLength": 1,
-      "maximumLength": 10
-    },
-    {
-      'identifer': "8020",
-      'title': "REF No",
-      "minimumLength": 1,
-      "maximumLength": 25
-    },
-    {
-      'identifer': "8110",
-      'title': "-",
-      "minimumLength": 1,
-      "maximumLength": 70
-    },
-    {'identifer': "8111", 'title': "POINTS", 'length': 4, "requiredFNC1": true},
-    {
-      'identifer': "8112",
-      'title': "-",
-      "minimumLength": 1,
-      "maximumLength": 70
-    },
-    {
-      'identifer': "8200",
-      'title': "PRODUCT URL",
-      "minimumLength": 1,
-      "maximumLength": 70
-    },
-    {
-      'identifer': "90",
-      'title': "INTERNAL",
-      "minimumLength": 1,
-      "maximumLength": 30
-    },
-    {
-      'identifer': "91",
-      'title': "INTERNAL",
-      "minimumLength": 1,
-      "maximumLength": 90
-    },
-    {
-      'identifer': "92",
-      'title': "INTERNAL",
-      "minimumLength": 1,
-      "maximumLength": 90
-    },
-    {
-      'identifer': "93",
-      'title': "INTERNAL",
-      "minimumLength": 1,
-      "maximumLength": 90
-    },
-    {
-      'identifer': "94",
-      'title': "INTERNAL",
-      "minimumLength": 1,
-      "maximumLength": 90
-    },
-    {
-      'identifer': "95",
-      'title': "INTERNAL",
-      "minimumLength": 1,
-      "maximumLength": 90
-    },
-    {
-      'identifer': "96",
-      'title': "INTERNAL",
-      "minimumLength": 1,
-      "maximumLength": 90
-    },
-    {
-      'identifer': "97",
-      'title': "INTERNAL",
-      "minimumLength": 1,
-      "maximumLength": 90
-    },
-    {
-      'identifer': "98",
-      'title': "INTERNAL",
-      "minimumLength": 1,
-      "maximumLength": 90
-    },
-    {
-      'identifer': "99",
-      'title': "INTERNAL",
-      "minimumLength": 1,
-      "maximumLength": 90
-    },
-  ];
+  String? getCountryName = "";
+  String? getPrefixString = "";
+  String? getCGPLengthofString = "";
 
   final dbhelper = DataBaseHelper.instance;
   List<Map<String, dynamic>> resultMap = [];
@@ -583,9 +44,7 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
   String? getSpecialCharacterLastIndex;
   String? afterAlldataNewstringg;
   String? getSpecialcharcatershape;
-
   String? getNewSpaecialcharacter = '';
-
   String? productName;
   String? CompanyName;
   String? suplychain = null;
@@ -691,13 +150,13 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
       if (newStringafterSpecialCharcter.codeUnitAt(0).toString() == "29") {
         String? newStringDeleteFirstIndex = newStringafterSpecialCharcter
             .substring(1, newStringafterSpecialCharcter.length);
-      if(newStringDeleteFirstIndex.length >1){
-getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
-      }
+        if (newStringDeleteFirstIndex.length > 1) {
+          getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
+        }
       } else {
-   if(newStringafterSpecialCharcter.length>1){
-        getDataMatrixCodeRemoveFirstIndex(newStringafterSpecialCharcter);
-      }
+        if (newStringafterSpecialCharcter.length > 1) {
+          getDataMatrixCodeRemoveFirstIndex(newStringafterSpecialCharcter);
+        }
       }
     }
   }
@@ -929,7 +388,8 @@ getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
     }
   }
 
-  afterGetLengthThanAgainParsing(Map<String, dynamic> key, int getLength, String getLengthafterCode) {
+  afterGetLengthThanAgainParsing(
+      Map<String, dynamic> key, int getLength, String getLengthafterCode) {
     if (getLength > getLengthafterCode.length) {
       ShowDialogBox("Invalid Data Matrix ${key['title']} Length not Complete");
       setState(() {
@@ -949,13 +409,70 @@ getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
           resultMap = [];
         });
       } else {
-        String afterAlldataNewstringgnoExistSpecial = getLengthafterCode;
+        String? afterAlldataNewstringgnoExistSpecial = getLengthafterCode;
 
-        resultMap.add({
-          'identifer': key["identifer"],
-          'title': key["title"],
-          'value': afterAlldataNewstringgnoExistSpecial
-        });
+        if (key["identifer"].contains("11") ||
+            key["identifer"].contains("12") ||
+            key["identifer"].contains("13") ||
+            key["identifer"].contains("15") ||
+            key["identifer"].contains("17")) {
+          String? afterAlldataNewstringgnoExistSpecial =
+              getLengthafterCode.toString();
+          String getDateString = afterAlldataNewstringgnoExistSpecial;
+          String? getYearSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(0, 2);
+          String getMonthSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(2, 4);
+          String getDaysSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(4, 6);
+
+          String? dateFormateParse;
+
+          String? addNewYearMakeFullYear = "20" + getYearSubString.toString();
+          if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00") &&
+              getYearSubString.contains("00")) {
+            dateFormateParse = "$afterAlldataNewstringgnoExistSpecial";
+          } else if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00")) {
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+          } else if (getDaysSubString.contains("00") &&
+              !getMonthSubString.contains("00")) {
+            String formatedate = DateFormat('MMMM')
+                .format(DateTime(0, int.parse(getMonthSubString)));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+          } else if (getMonthSubString.contains("00")) {
+            dateFormateParse = afterAlldataNewstringgnoExistSpecial;
+          } else {
+            String formatedate = DateTime.parse(
+                    addNewYearMakeFullYear.toString() +
+                        getMonthSubString.toString() +
+                        getDaysSubString.toString())
+                .toIso8601String();
+
+            String? formateDateData =
+                DateFormat.yMMMMd().format(DateTime.parse(formatedate));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+          }
+
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': dateFormateParse
+          });
+        } else {
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': afterAlldataNewstringgnoExistSpecial
+          });
+        }
+
         // setState(() {
         //   CheckValueForTest(afterAlldataNewstringg);
         // });
@@ -971,12 +488,67 @@ getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
         afterAlldataNewstringg =
             getLengthafterCode.substring(getLength, getLengthafterCode.length);
 
-        resultMap.add({
-          'identifer': key["identifer"],
-          'title': key["title"],
-          'value': getFirstVIIStringg
-        });
+        if (key["identifer"].contains("11") ||
+            key["identifer"].contains("12") ||
+            key["identifer"].contains("13") ||
+            key["identifer"].contains("15") ||
+            key["identifer"].contains("17")) {
+          String? afterAlldataNewstringgnoExistSpecial =
+              getFirstVIIStringg.toString();
+          String getDateString = afterAlldataNewstringgnoExistSpecial;
+          String? getYearSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(0, 2);
+          String getMonthSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(2, 4);
+          String getDaysSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(4, 6);
 
+          String? dateFormateParse;
+
+          String? addNewYearMakeFullYear = "20" + getYearSubString.toString();
+          if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00") &&
+              getYearSubString.contains("00")) {
+            dateFormateParse = "$afterAlldataNewstringgnoExistSpecial";
+          } else if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00")) {
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+          } else if (getDaysSubString.contains("00") &&
+              !getMonthSubString.contains("00")) {
+            String formatedate = DateFormat('MMMM')
+                .format(DateTime(0, int.parse(getMonthSubString)));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+          } else if (getMonthSubString.contains("00")) {
+            dateFormateParse = afterAlldataNewstringgnoExistSpecial;
+          } else {
+            String formatedate = DateTime.parse(
+                    addNewYearMakeFullYear.toString() +
+                        getMonthSubString.toString() +
+                        getDaysSubString.toString())
+                .toIso8601String();
+
+            String? formateDateData =
+                DateFormat.yMMMMd().format(DateTime.parse(formatedate));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+          }
+
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': dateFormateParse
+          });
+        } else {
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': getFirstVIIStringg
+          });
+        }
         // setState(() {
         //   CheckValueForTest(afterAlldataNewstringg);
         // });
@@ -1129,9 +701,11 @@ getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
     }
   }
 
-  afterGetMaximumLengthThanAgainParsing(Map<String, dynamic> key, int getLength,String getLengthafterCode, int minimumLength) {
+  afterGetMaximumLengthThanAgainParsing(Map<String, dynamic> key, int getLength,
+      String getLengthafterCode, int minimumLength) {
     if (minimumLength > getLengthafterCode.length) {
-      ShowDialogBox("The Required ${key['title']} the minimum Length $minimumLength");
+      ShowDialogBox(
+          "The Required ${key['title']} the minimum Length $minimumLength");
       resultMap = [];
     } else if (getLength > getLengthafterCode.length) {
       String? getFirstVIIStringg = getLengthafterCode;
@@ -1142,94 +716,203 @@ getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
         afterAlldataNewstringg =
             getLengthafterCode.substring(getIndex, getLengthafterCode.length);
 
-            if(getFirstVIIStringg.length >=  minimumLength){
+        if (getFirstVIIStringg.length >= minimumLength) {
+          if (key["identifer"].contains("11") ||
+              key["identifer"].contains("12") ||
+              key["identifer"].contains("13") ||
+              key["identifer"].contains("15") ||
+              key["identifer"].contains("17")) {
+            String? afterAlldataNewstringgnoExistSpecial =
+                getFirstVIIStringg.toString();
+            String getDateString = afterAlldataNewstringgnoExistSpecial;
+            String? getYearSubString =
+                afterAlldataNewstringgnoExistSpecial.substring(0, 2);
+            String getMonthSubString =
+                afterAlldataNewstringgnoExistSpecial.substring(2, 4);
+            String getDaysSubString =
+                afterAlldataNewstringgnoExistSpecial.substring(4, 6);
 
-            
+            String? dateFormateParse;
 
-        resultMap.add({
-          'identifer': key["identifer"],
-          'title': key["title"],
-          'value': getFirstVIIStringg
-        });
-        // setState(() {
-        //   CheckValueForTest(afterAlldataNewstringg);
-        // });
-        int count = 0;
-        String? countnumberOfAIIToNotMatch;
-        if (afterAlldataNewstringg!.length > 0) {
-          if (afterAlldataNewstringg!.codeUnitAt(0).toString() == "29") {
-            CheckValueForTest(afterAlldataNewstringg);
-          } else {
-            if (afterAlldataNewstringg!.length < 2) {
-              countnumberOfAIIToNotMatch =
-                  afterAlldataNewstringg!.substring(0, 1);
-            } else if (afterAlldataNewstringg!.length < 3) {
-              String? getFirsttwoIndex =
-                  afterAlldataNewstringg!.substring(0, 2);
-              countnumberOfAIIToNotMatch = getFirsttwoIndex;
+            String? addNewYearMakeFullYear = "20" + getYearSubString.toString();
 
-              for (key in map) {
-                if (key['identifer'] ==
-                    getFirsttwoIndex.toString().toString()) {
-                  count++;
-                }
-              }
-            } else if (afterAlldataNewstringg!.length < 4) {
-              String? getFirsttwoIndex =
-                  afterAlldataNewstringg!.substring(0, 2);
-              String? getFirstthreeIndex =
-                  afterAlldataNewstringg!.substring(0, 3);
-              countnumberOfAIIToNotMatch = getFirstthreeIndex;
+            if (getDaysSubString.contains("00") &&
+                getMonthSubString.contains("00")) {
+              dateFormateParse =
+                  "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+            } else if (getDaysSubString.contains("00") &&
+                !getMonthSubString.contains("00")) {
+              String formatedate = DateFormat('MMMM')
+                  .format(DateTime(0, int.parse(getMonthSubString)));
 
-              for (key in map) {
-                if (key['identifer'] == getFirsttwoIndex.toString() ||
-                    key['identifer'] == getFirstthreeIndex.toString()) {
-                  count++;
-                }
-              }
+              dateFormateParse =
+                  "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+            } else if (getMonthSubString.contains("00")) {
+              dateFormateParse = afterAlldataNewstringgnoExistSpecial;
             } else {
-              String? getFirsttwoIndex =
-                  afterAlldataNewstringg!.substring(0, 2);
-              String? getFirstthreeIndex =
-                  afterAlldataNewstringg!.substring(0, 3);
-              String? getFirstfourIndex =
-                  afterAlldataNewstringg!.substring(0, 4);
-              countnumberOfAIIToNotMatch = getFirstfourIndex;
+              String formatedate = DateTime.parse(
+                      addNewYearMakeFullYear.toString() +
+                          getMonthSubString.toString() +
+                          getDaysSubString.toString())
+                  .toIso8601String();
 
-              for (key in map) {
-                if (key['identifer'] == getFirsttwoIndex.toString() ||
-                    key['identifer'] == getFirstthreeIndex.toString() ||
-                    key['identifer'] == getFirstfourIndex.toString()) {
-                  count++;
-                }
-              }
+              String? formateDateData =
+                  DateFormat.yMMMMd().format(DateTime.parse(formatedate));
+
+              dateFormateParse =
+                  "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
             }
 
-            if (count > 0) {
+            resultMap.add({
+              'identifer': key["identifer"],
+              'title': key["title"],
+              'value': dateFormateParse
+            });
+          } else {
+            resultMap.add({
+              'identifer': key["identifer"],
+              'title': key["title"],
+              'value': getFirstVIIStringg
+            });
+          }
+          // setState(() {
+          //   CheckValueForTest(afterAlldataNewstringg);
+          // });
+          int count = 0;
+          String? countnumberOfAIIToNotMatch;
+          if (afterAlldataNewstringg!.length > 0) {
+            if (afterAlldataNewstringg!.codeUnitAt(0).toString() == "29") {
               CheckValueForTest(afterAlldataNewstringg);
-
-              count = 0;
             } else {
-              ShowDialogBox(
-                  'Invalid AII ${countnumberOfAIIToNotMatch}  At Index ${widget.qrCode!.length - afterAlldataNewstringg!.length + 1}');
-              // ShowDialogBox("FNC Required At point ");
+              if (afterAlldataNewstringg!.length < 2) {
+                countnumberOfAIIToNotMatch =
+                    afterAlldataNewstringg!.substring(0, 1);
+              } else if (afterAlldataNewstringg!.length < 3) {
+                String? getFirsttwoIndex =
+                    afterAlldataNewstringg!.substring(0, 2);
+                countnumberOfAIIToNotMatch = getFirsttwoIndex;
 
-              setState(() {
-                resultMap = [];
-              });
+                for (key in map) {
+                  if (key['identifer'] ==
+                      getFirsttwoIndex.toString().toString()) {
+                    count++;
+                  }
+                }
+              } else if (afterAlldataNewstringg!.length < 4) {
+                String? getFirsttwoIndex =
+                    afterAlldataNewstringg!.substring(0, 2);
+                String? getFirstthreeIndex =
+                    afterAlldataNewstringg!.substring(0, 3);
+                countnumberOfAIIToNotMatch = getFirstthreeIndex;
+
+                for (key in map) {
+                  if (key['identifer'] == getFirsttwoIndex.toString() ||
+                      key['identifer'] == getFirstthreeIndex.toString()) {
+                    count++;
+                  }
+                }
+              } else {
+                String? getFirsttwoIndex =
+                    afterAlldataNewstringg!.substring(0, 2);
+                String? getFirstthreeIndex =
+                    afterAlldataNewstringg!.substring(0, 3);
+                String? getFirstfourIndex =
+                    afterAlldataNewstringg!.substring(0, 4);
+                countnumberOfAIIToNotMatch = getFirstfourIndex;
+
+                for (key in map) {
+                  if (key['identifer'] == getFirsttwoIndex.toString() ||
+                      key['identifer'] == getFirstthreeIndex.toString() ||
+                      key['identifer'] == getFirstfourIndex.toString()) {
+                    count++;
+                  }
+                }
+              }
+
+              if (count > 0) {
+                CheckValueForTest(afterAlldataNewstringg);
+
+                count = 0;
+              } else {
+                ShowDialogBox(
+                    'Invalid AII ${countnumberOfAIIToNotMatch}  At Index ${widget.qrCode!.length - afterAlldataNewstringg!.length + 1}');
+                // ShowDialogBox("FNC Required At point ");
+
+                setState(() {
+                  resultMap = [];
+                });
+              }
             }
           }
-        }}else{
-           ShowDialogBox("The Required ${key['title']} the minimum Length $minimumLength");
-      resultMap = [];
+        } else {
+          ShowDialogBox(
+              "The Required ${key['title']} the minimum Length $minimumLength");
+          resultMap = [];
         }
       } else {
         String afterAlldataNewstringgnoExistSpecial = getLengthafterCode;
-        resultMap.add({
-          'identifer': key["identifer"],
-          'title': key["title"],
-          'value': afterAlldataNewstringgnoExistSpecial
-        });
+
+        if (key["identifer"].contains("11") ||
+            key["identifer"].contains("12") ||
+            key["identifer"].contains("13") ||
+            key["identifer"].contains("15") ||
+            key["identifer"].contains("17")) {
+          String? afterAlldataNewstringgnoExistSpecial =
+              getLengthafterCode.toString();
+          String getDateString = afterAlldataNewstringgnoExistSpecial;
+          String? getYearSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(0, 2);
+          String getMonthSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(2, 4);
+          String getDaysSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(4, 6);
+
+          String? dateFormateParse;
+
+          String? addNewYearMakeFullYear = "20" + getYearSubString.toString();
+          if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00") &&
+              getYearSubString.contains("00")) {
+            dateFormateParse = "$afterAlldataNewstringgnoExistSpecial";
+          } else if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00")) {
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+          } else if (getDaysSubString.contains("00") &&
+              !getMonthSubString.contains("00")) {
+            String formatedate = DateFormat('MMMM')
+                .format(DateTime(0, int.parse(getMonthSubString)));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+          } else if (getMonthSubString.contains("00")) {
+            dateFormateParse = afterAlldataNewstringgnoExistSpecial;
+          } else {
+            String formatedate = DateTime.parse(
+                    addNewYearMakeFullYear.toString() +
+                        getMonthSubString.toString() +
+                        getDaysSubString.toString())
+                .toIso8601String();
+
+            String? formateDateData =
+                DateFormat.yMMMMd().format(DateTime.parse(formatedate));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+          }
+
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': dateFormateParse
+          });
+        } else {
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': afterAlldataNewstringgnoExistSpecial
+          });
+        }
       }
     } else if (getLength == getLengthafterCode.length) {
       String? getFirstVIIStringg = getLengthafterCode;
@@ -1240,11 +923,67 @@ getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
         afterAlldataNewstringg =
             getLengthafterCode.substring(getIndex, getLengthafterCode.length);
 
-        resultMap.add({
-          'identifer': key["identifer"],
-          'title': key["title"],
-          'value': getFirstVIIStringg
-        });
+        if (key["identifer"].contains("11") ||
+            key["identifer"].contains("12") ||
+            key["identifer"].contains("13") ||
+            key["identifer"].contains("15") ||
+            key["identifer"].contains("17")) {
+          String? afterAlldataNewstringgnoExistSpecial =
+              getFirstVIIStringg.toString();
+          String getDateString = afterAlldataNewstringgnoExistSpecial;
+          String? getYearSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(0, 2);
+          String getMonthSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(2, 4);
+          String getDaysSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(4, 6);
+
+          String? dateFormateParse;
+
+          String? addNewYearMakeFullYear = "20" + getYearSubString.toString();
+          if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00") &&
+              getYearSubString.contains("00")) {
+            dateFormateParse = "$afterAlldataNewstringgnoExistSpecial";
+          } else if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00")) {
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+          } else if (getDaysSubString.contains("00") &&
+              !getMonthSubString.contains("00")) {
+            String formatedate = DateFormat('MMMM')
+                .format(DateTime(0, int.parse(getMonthSubString)));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+          } else if (getMonthSubString.contains("00")) {
+            dateFormateParse = afterAlldataNewstringgnoExistSpecial;
+          } else {
+            String formatedate = DateTime.parse(
+                    addNewYearMakeFullYear.toString() +
+                        getMonthSubString.toString() +
+                        getDaysSubString.toString())
+                .toIso8601String();
+
+            String? formateDateData =
+                DateFormat.yMMMMd().format(DateTime.parse(formatedate));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+          }
+
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': dateFormateParse
+          });
+        } else {
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': getFirstVIIStringg
+          });
+        }
         // setState(() {
         //   CheckValueForTest(afterAlldataNewstringg);
         // });
@@ -1316,11 +1055,68 @@ getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
         }
       } else {
         String afterAlldataNewstringgnoExistSpecial = getLengthafterCode;
-        resultMap.add({
-          'identifer': key["identifer"],
-          'title': key["title"],
-          'value': afterAlldataNewstringgnoExistSpecial
-        });
+
+        if (key["identifer"].contains("11") ||
+            key["identifer"].contains("12") ||
+            key["identifer"].contains("13") ||
+            key["identifer"].contains("15") ||
+            key["identifer"].contains("17")) {
+          String? afterAlldataNewstringgnoExistSpecial =
+              getLengthafterCode.toString();
+          String getDateString = afterAlldataNewstringgnoExistSpecial;
+          String? getYearSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(0, 2);
+          String getMonthSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(2, 4);
+          String getDaysSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(4, 6);
+
+          String? dateFormateParse;
+
+          String? addNewYearMakeFullYear = "20" + getYearSubString.toString();
+          if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00") &&
+              getYearSubString.contains("00")) {
+            dateFormateParse = "$afterAlldataNewstringgnoExistSpecial";
+          } else if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00")) {
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+          } else if (getDaysSubString.contains("00") &&
+              !getMonthSubString.contains("00")) {
+            String formatedate = DateFormat('MMMM')
+                .format(DateTime(0, int.parse(getMonthSubString)));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+          } else if (getMonthSubString.contains("00")) {
+            dateFormateParse = afterAlldataNewstringgnoExistSpecial;
+          } else {
+            String formatedate = DateTime.parse(
+                    addNewYearMakeFullYear.toString() +
+                        getMonthSubString.toString() +
+                        getDaysSubString.toString())
+                .toIso8601String();
+
+            String? formateDateData =
+                DateFormat.yMMMMd().format(DateTime.parse(formatedate));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+          }
+
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': dateFormateParse
+          });
+        } else {
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': afterAlldataNewstringgnoExistSpecial
+          });
+        }
       }
     } else {
       String? getFirstVIIStringg = getLengthafterCode.substring(0, getLength);
@@ -1336,11 +1132,67 @@ getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
         afterAlldataNewstringg =
             getLengthafterCode.substring(getIndex, getLengthafterCode.length);
 
-        resultMap.add({
-          'identifer': key["identifer"],
-          'title': key["title"],
-          'value': getFirstVIIStringg
-        });
+        if (key["identifer"].contains("11") ||
+            key["identifer"].contains("12") ||
+            key["identifer"].contains("13") ||
+            key["identifer"].contains("15") ||
+            key["identifer"].contains("17")) {
+          String? afterAlldataNewstringgnoExistSpecial =
+              getFirstVIIStringg.toString();
+          String getDateString = afterAlldataNewstringgnoExistSpecial;
+          String? getYearSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(0, 2);
+          String getMonthSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(2, 4);
+          String getDaysSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(4, 6);
+
+          String? dateFormateParse;
+
+          String? addNewYearMakeFullYear = "20" + getYearSubString.toString();
+          if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00") &&
+              getYearSubString.contains("00")) {
+            dateFormateParse = "$afterAlldataNewstringgnoExistSpecial";
+          } else if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00")) {
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+          } else if (getDaysSubString.contains("00") &&
+              !getMonthSubString.contains("00")) {
+            String formatedate = DateFormat('MMMM')
+                .format(DateTime(0, int.parse(getMonthSubString)));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+          } else if (getMonthSubString.contains("00")) {
+            dateFormateParse = afterAlldataNewstringgnoExistSpecial;
+          } else {
+            String formatedate = DateTime.parse(
+                    addNewYearMakeFullYear.toString() +
+                        getMonthSubString.toString() +
+                        getDaysSubString.toString())
+                .toIso8601String();
+
+            String? formateDateData =
+                DateFormat.yMMMMd().format(DateTime.parse(formatedate));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+          }
+
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': dateFormateParse
+          });
+        } else {
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': getFirstVIIStringg
+          });
+        }
         // setState(() {
         //   CheckValueForTest(afterAlldataNewstringg);
         // });
@@ -1414,11 +1266,67 @@ getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
         //// print(getFirstVIIStringg);
         // print(afterAlldataNewstringg!);
 
-        resultMap.add({
-          'identifer': key["identifer"],
-          'title': key["title"],
-          'value': getFirstVIIStringg
-        });
+        if (key["identifer"].contains("11") ||
+            key["identifer"].contains("12") ||
+            key["identifer"].contains("13") ||
+            key["identifer"].contains("15") ||
+            key["identifer"].contains("17")) {
+          String? afterAlldataNewstringgnoExistSpecial =
+              getFirstVIIStringg.toString();
+          String getDateString = afterAlldataNewstringgnoExistSpecial;
+          String? getYearSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(0, 2);
+          String getMonthSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(2, 4);
+          String getDaysSubString =
+              afterAlldataNewstringgnoExistSpecial.substring(4, 6);
+
+          String? dateFormateParse;
+
+          String? addNewYearMakeFullYear = "20" + getYearSubString.toString();
+          if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00") &&
+              getYearSubString.contains("00")) {
+            dateFormateParse = "$afterAlldataNewstringgnoExistSpecial";
+          } else if (getDaysSubString.contains("00") &&
+              getMonthSubString.contains("00")) {
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+          } else if (getDaysSubString.contains("00") &&
+              !getMonthSubString.contains("00")) {
+            String formatedate = DateFormat('MMMM')
+                .format(DateTime(0, int.parse(getMonthSubString)));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+          } else if (getMonthSubString.contains("00")) {
+            dateFormateParse = afterAlldataNewstringgnoExistSpecial;
+          } else {
+            String formatedate = DateTime.parse(
+                    addNewYearMakeFullYear.toString() +
+                        getMonthSubString.toString() +
+                        getDaysSubString.toString())
+                .toIso8601String();
+
+            String? formateDateData =
+                DateFormat.yMMMMd().format(DateTime.parse(formatedate));
+
+            dateFormateParse =
+                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+          }
+
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': dateFormateParse
+          });
+        } else {
+          resultMap.add({
+            'identifer': key["identifer"],
+            'title': key["title"],
+            'value': getFirstVIIStringg
+          });
+        }
 
         // setState(() {
         //   CheckValueForTest(afterAlldataNewstringg);
@@ -1500,6 +1408,8 @@ getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
       if (resultMap[j]['title'].toString().contains("GTIN")) {
         //  log(resultMap[j].toString());
         String? getData = resultMap[j]['value'];
+
+        CalculateCompanyPrefix(getData);
 
         for (int i = 0; i < getLocalstoreData.length; i++) {
           if (getData! == getLocalstoreData[i]['id']) {
@@ -1663,128 +1573,143 @@ getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
           ],
         ),
         body: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                color: resultbackgroundColor,
-                child: Column(
-                  children: [
-                    resultMap.isNotEmpty
-                        ? Text(
-                            "DATA MATRIX (GS1)",
-                            style: GoogleFonts.roboto(
-                                color: Colors.black.withOpacity(0.5),
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold),
-                          )
-                        : Text(
-                            'DATA MATRIX',
-                            style: GoogleFonts.roboto(
-                                color: Colors.black.withOpacity(0.5),
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold),
-                          ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-
-                    getSpecialCharacter != '29'
-                        ? Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text('${widget.qrCode}'),
-                            ],
-                          )
-                        : Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: qrResultConvertList.map((item) {
-                              if (item == widget.qrCode![0]) {
-                                return const Text(
-                                  'FNC',
-                                  style: TextStyle(
-                                    color: colorPrimaryLightBlue,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                );
-                              } else {
-                                return Text(
-                                  item.toString(),
-                                  style: TextStyle(
-                                      color: Colors.black54, fontSize: 16),
-                                );
-                              }
-                              // if (item < 100) {
-                              //   return Padding(
-                              //     padding: const EdgeInsets.all(8.0),
-                              //     child: Text(
-                              //       item.toString(),
-                              //       style: const TextStyle(
-                              //         fontWeight: FontWeight.bold,
-                              //         color: Colors.red,
-                              //       ),
-                              //     ),
-                              //   );
-                              // }
-                              // if (item == 100) {
-                              //   return Padding(
-                              //     padding: const EdgeInsets.all(8.0),
-                              //     child: Text(
-                              //       item.toString(),
-                              //       style: TextStyle(
-                              //         fontWeight: FontWeight.bold,
-                              //         color: Colors.green,
-                              //       ),
-                              //     ),
-                              //   );
-                              // }
-                            }).toList()),
-                    // Text(
-                    //   "${widget.qrCode}",
-                    //   style: GoogleFonts.roboto(
-                    //       color: Colors.black.withOpacity(0.5),
-                    //       fontSize: 18,
-                    //       fontWeight: FontWeight.w300),
-                    // )
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              getSpecialCharacter != '29'
-                  ? Container(
-                      alignment: Alignment.center,
-                      child: Center(
-                        child: Text(
-                          'Not Found Valid AI',
-                          style: TextStyle(
-                              color: Colors.red,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/dna.png',),fit: BoxFit.cover)),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                  color: resultbackgroundColor,
+                    width: MediaQuery.of(context).size.width,
+                    
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            
+                    child: Column(
+                      children: [
+                        resultMap.isNotEmpty
+                            ? Text(
+                                "DATA MATRIX (GS1)",
+                                style: GoogleFonts.roboto(
+                                    color: Colors.black.withOpacity(0.5),
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            : Text(
+                                'DATA MATRIX',
+                                style: GoogleFonts.roboto(
+                                    color: Colors.black.withOpacity(0.5),
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                        const SizedBox(
+                          height: 8,
                         ),
-                      ),
-                    )
-                  : Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: 10),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              resultMap.length == 0
-                                  ? Text(
-                                      'Invalid Data Matrix',
+            
+                        getSpecialCharacter != '29'
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text('${widget.qrCode}'),
+                                ],
+                              )
+                            : Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: qrResultConvertList.map((item) {
+                                  if (item == widget.qrCode![0]) {
+                                    return const Text(
+                                      'FNC',
                                       style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                        color: Colors.red,
+                                        color: colorPrimaryLightBlue,
+                                        fontWeight: FontWeight.normal,
                                       ),
-                                    )
-                                  : Text(
+                                    );
+                                  } else {
+                                    return Text(
+                                      item.toString(),
+                                      style: TextStyle(
+                                          color: Colors.black54, fontSize: 16),
+                                    );
+                                  }
+                                  // if (item < 100) {
+                                  //   return Padding(
+                                  //     padding: const EdgeInsets.all(8.0),
+                                  //     child: Text(
+                                  //       item.toString(),
+                                  //       style: const TextStyle(
+                                  //         fontWeight: FontWeight.bold,
+                                  //         color: Colors.red,
+                                  //       ),
+                                  //     ),
+                                  //   );
+                                  // }
+                                  // if (item == 100) {
+                                  //   return Padding(
+                                  //     padding: const EdgeInsets.all(8.0),
+                                  //     child: Text(
+                                  //       item.toString(),
+                                  //       style: TextStyle(
+                                  //         fontWeight: FontWeight.bold,
+                                  //         color: Colors.green,
+                                  //       ),
+                                  //     ),
+                                  //   );
+                                  // }
+                                }).toList()),
+                        // Text(
+                        //   "${widget.qrCode}",
+                        //   style: GoogleFonts.roboto(
+                        //       color: Colors.black.withOpacity(0.5),
+                        //       fontSize: 18,
+                        //       fontWeight: FontWeight.w300),
+                        // )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  getSpecialCharacter != '29'
+                      ? Container(
+                          alignment: Alignment.center,
+                          child: Center(
+                            child: Text(
+                              'Not Found Valid AI',
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )
+                      : Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            resultMap.length == 0
+                                ? Text(
+                                    'Invalid Data Matrix',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                : 
+                            Container(
+                              padding: EdgeInsets.only(top: 15),
+                              margin: EdgeInsets.symmetric(horizontal: 20),
+                              decoration: BoxDecoration(
+                                border: Border.all(width: 0.5,color: Colors.black45)
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
                                       "SCANNED INFORMATION",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -1793,190 +1718,557 @@ getDataMatrixCodeRemoveFirstIndex(newStringDeleteFirstIndex);
                                       ),
                                     ),
                               const SizedBox(
-                                height: 20,
+                                height: 15,
                               ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
+                                  getCountryName!.isEmpty
+                                      ? Container()
+                                      : 
+                                      Container(
+                                     padding: EdgeInsets.symmetric(vertical: 10,horizontal: 5),
+                              // margin: EdgeInsets.symmetric(horizontal: 5),
+                              decoration: BoxDecoration(
+                                border: Border(top: BorderSide(color: Colors.black45,width: 0.5),
+                                bottom: BorderSide(color: Colors.black45,width: 0.5)
+                                )
+                              ),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                          // mainAxisAlignment:
+                                          //     MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "The Product is from",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black54),
+                                            ),
+                                            Text(
+                                              " ${getCountryName} (${getPrefixString})",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: colorPrimaryLightBlue),
+                                            ),
+                                          ],
+                                        ),
+                                  getCGPLengthofString!.isEmpty
+                                      ? Container()
+                                      : Row(
+                                          // mainAxisAlignment:
+                                          //     MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "GCP is",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Colors.black54),
+                                            ),
+                                            Text(
+                                              " ${getCGPLengthofString}",
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  color: colorPrimaryLightBlue),
+                                            ),
+                                          ],
+                                        ),
+                                
+                                        ],),
+                                      ),
+                                      
+                                    
+                                
+                                
+                                
+                                 
+            
+            
+            
+            
+                          
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
                                   for (int i = 0; i < resultMap.length; i++)
                                     Container(
+                                      // decoration: BoxDecoration(
+                                        
+                                      //   border: Border(
+                                      //     bottom:i == resultMap.length-1 ?BorderSide(width: 0,color:  Colors.black12) 
+                                      //   :  BorderSide(color:  Colors.black54) 
+                                      //   )
+                                      // ),
                                       alignment: Alignment.center,
                                       padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 5),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
+                                          horizontal: 0, vertical: 0),
+                                      child: Container(
+                                         decoration: BoxDecoration(
+                                        
+                                        border: Border(
+                                          bottom:i == resultMap.length-1 ?BorderSide(width: 0,color:  Colors.black12) 
+                                        :  BorderSide(color:  Colors.black45,width: 0.5) 
+                                        )
+                                      ),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.only(right: 5,top: 8,bottom: 8,left: 5),
+                                              decoration: BoxDecoration(
+                                              //  border: Border(right: BorderSide(width: 0.5, color: Colors.black))
+                                              ),
+                                              width: MediaQuery.of(context).size.width*0.4,
                                               child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                '${resultMap[i]['title']}',
-                                                style: const TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    color: colorPrimaryLightBlue),
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                                              
+                                                children: [
+                                              Expanded(
+                                                child: Text(
+                                                  '${resultMap[i]['title']}(${resultMap[i]['identifer']})',
+                                                  style: const TextStyle(
+                                                      fontWeight: FontWeight.w600,
+                                                      color:
+                                                          colorPrimaryLightBlue),
+                                                ),
                                               ),
-                                              Text(
-                                                '(${resultMap[i]['identifer']}): ',
-                                                style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: colorPrimaryLightBlue),
+                                              // Text(
+                                               
+                                              //   style: const TextStyle(
+                                              //       fontWeight: FontWeight.bold,
+                                              //       color:
+                                              //           colorPrimaryLightBlue),
+                                              // ),
+                                                ],
                                               ),
-                                            ],
-                                          )),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          Expanded(
-                                              child: Text(
-                                            '${resultMap[i]['value']}',
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(color: Colors.black54),
-                                          )),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                        ],
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Expanded(
+                                                child: Container(
+            
+                                                    decoration: BoxDecoration(
+                                                border: Border(left: BorderSide(color: Colors.black45,width: 0.5))
+                                              ),
+                                              padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 5),
+                                                  child: Text(
+                                              '${resultMap[i]['value']}',
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                    color: Colors.black54),
+                                            ),
+                                                )),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                 ],
                               ),
-
-                              const SizedBox(
-                height: 20,
-              ),
-              productName == null && CompanyName == null && suplychain == null
-                  ? Container()
-                  : Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "MASTER DATA",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.black.withOpacity(0.5),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          productName == null
-                              ? Center()
-                              : Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Expanded(
-                                      child: Text(
-                                        'PRODUCT: ',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: colorPrimaryLightBlue),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: productName == null
-                                          ? Text('')
-                                          : Text(
-                                              '$productName',
-                                              style: TextStyle(
-                                                  color: Colors.black54),
-                                              // style: const TextStyle(
-                                              //     fontWeight: FontWeight.bold,
-                                              //     color: blueColor1),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            productName == null &&
+                                    CompanyName == null &&
+                                    suplychain == null
+                                ? Container()
+                                : Container(
+                                  padding: EdgeInsets.only(top: 10),
+                                  margin: EdgeInsets.symmetric(horizontal: 20),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(width: 0.5,color: Colors.black45)
+                                  ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          "MASTER DATA",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                            color:
+                                                Colors.black.withOpacity(0.5),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        productName == null
+                                            ? Center()
+                                            : Container(
+                                              alignment: Alignment.centerLeft,
+                                            
+                                              decoration:BoxDecoration(
+                                               border:Border(
+                                                top: BorderSide(width: 0.5, color: Colors.black45),
+                                                bottom: BorderSide(width: 0.5, color: Colors.black45)
+                                              ),
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.start,
+                     
+                                                  children: [
+                                                    Container(
+                                                      padding: EdgeInsets.symmetric(horizontal: 5),
+                                                      width: MediaQuery.of(context).size.width*0.4+05,
+                                                      child: Text(
+                                                        'PRODUCT',
+                                                        
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                colorPrimaryLightBlue),
+                                                      ),
+                                                    ),
+                                                   
+                                                    Expanded(
+                                                      
+                                                      child: productName == null
+                                                          ? Text('')
+                                                          : Container(
+            
+                                                              padding: EdgeInsets.symmetric(vertical: 5 , horizontal: 5),
+                                                            decoration: BoxDecoration(
+                                                              border: Border(left: BorderSide( width: 0.5,color: Colors.black45))
+                                                            ),
+                                                            child: Text(
+                                                                '$productName',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black54),
+                                                                // style: const TextStyle(
+                                                                //     fontWeight: FontWeight.bold,
+                                                                //     color: blueColor1),
+                                                              ),
+                                                          ),
+                                                    ),
+                                                  ],
+                                                ),
                                             ),
-                                    ),
-                                  ],
-                                ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          CompanyName == null
-                              ? Center()
-                              : Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Expanded(
-                                      child: Text(
-                                        'COMPANY: ',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: colorPrimaryLightBlue),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: CompanyName == null
-                                          ? Text('')
-                                          : Text(
-                                              '$CompanyName',
-                                              style: TextStyle(
-                                                  color: Colors.black54),
-                                              //  style: const TextStyle(
-                                              //      fontWeight: FontWeight.bold,
-                                              //      color: blueColor1),
+                                      
+            
+            
+            
+            
+            
+            
+                                        CompanyName == null
+                                            ? Center()
+                                            : Container(
+                                              alignment: Alignment.centerLeft,
+                                            
+                                              decoration:BoxDecoration(
+                                               border:Border(
+                                                //top: BorderSide(width: 0.5, color: Colors.black45),
+                                                bottom:   suplychain == null &&
+                                                suplychain.runtimeType == Null ? BorderSide(width: 0, color: Colors.white) : BorderSide(width: 0.5, color: Colors.black45)
+                                              ),
+                                              ),
+                                              child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                       alignment: Alignment.centerLeft,
+                                                        padding: EdgeInsets.symmetric(horizontal: 5),
+                                                      width: MediaQuery.of(context).size.width*0.4+05,
+                                                      child: Text(
+                                                        'COMPANY',
+                                                        textAlign:
+                                                            TextAlign.end,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                colorPrimaryLightBlue),
+                                                      ),
+                                                    ),
+                                                   
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: CompanyName == null
+                                                          ? Text('')
+                                                          : Container(
+                                                              padding: EdgeInsets.symmetric(vertical: 5 , horizontal: 5),
+                                                            decoration: BoxDecoration(
+                                                              border: Border(left: BorderSide( width: 0.5,color: Colors.black45))
+                                                            ),
+                                                            child: Text(
+                                                                '$CompanyName',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black54),
+                                                                //  style: const TextStyle(
+                                                                //      fontWeight: FontWeight.bold,
+                                                                //      color: blueColor1),
+                                                              ),
+                                                          ),
+                                                    ),
+                                                  ],
+                                                ),
                                             ),
+                                       
+                                       
+                                        suplychain == null &&
+                                                suplychain.runtimeType == Null
+                                            ? Container()
+                                            :
+                                             Container(
+                                                 alignment: Alignment.centerLeft,
+                                            
+                                              decoration:BoxDecoration(
+                                              
+                                              ),
+                                              child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Container(
+                                                       alignment: Alignment.centerLeft,
+                                                        padding: EdgeInsets.symmetric(horizontal: 5),
+                                                      width: MediaQuery.of(context).size.width*0.4+05,
+                                                      child: Text(
+                                                        'SUPPLY CHAIN',
+                                                        textAlign:
+                                                            TextAlign.end,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            color:
+                                                                colorPrimaryLightBlue),
+                                                      ),
+                                                    ),
+                                                   
+                                                    Expanded(
+                                                      flex: 2,
+                                                      child: Container(
+                                                         padding: EdgeInsets.symmetric(vertical: 5 , horizontal: 5),
+                                                            decoration: BoxDecoration(
+                                                              border: Border(left: BorderSide( width: 0.5,color: Colors.black45))
+                                                            ),
+                                                        child: Text(
+                                                          '${suplychain}',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black54),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                            ),
+                                          
+                                      ],
                                     ),
-                                  ],
-                                ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          suplychain == null && suplychain.runtimeType == Null
-                              ? Container()
-                              : Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Expanded(
-                                      child: Text(
-                                        'SUPPLY CHAIN: ',
-                                        textAlign: TextAlign.end,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: colorPrimaryLightBlue),
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        '${suplychain}',
-                                        style: TextStyle(color: Colors.black54),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                        ],
-                      ),
-                    ),
-                            ],
-
-                          ),
+                                  ),
+                                    SizedBox(height: 20,),
+                          ],
                         ),
                       ),
-                  ),
-              
-            ],
+            
+                        SizedBox(height: 40,),
+                ],
+              ),
+            ),
           ),
         ),
       ),
     );
+  }
+
+  CalculateCompanyPrefix(String? gTIN) {
+    //  log("data funcatoion call");
+    // log(gTIN!.toString());
+
+    String? deleteFirstDidgit = gTIN!.substring(1, gTIN.length);
+    log(deleteFirstDidgit.toString());
+
+    String getFirstSevenDigit = deleteFirstDidgit.substring(0, 7);
+    String getFirstFiveDigit = deleteFirstDidgit.substring(0, 5);
+    String getFirstFourDigit = deleteFirstDidgit.substring(0, 4);
+    String getFirstThreeDigit = deleteFirstDidgit.substring(0, 3);
+
+    //  log(getFirstSevenDigit.toString());
+    //  log(getFirstFiveDigit.toString());
+    //  log(getFirstFourDigit.toString());
+    //  log(getFirstThreeDigit.toString());
+
+    for (int i = 0; i < companyPrefix.length; i++) {
+      if (companyPrefix[i]['prefix'].toString() ==
+          getFirstSevenDigit.toString()) {
+        // log(companyPrefix[i]['Country'].toString());
+
+        setState(() {
+          getCountryName = companyPrefix[i]['Country'].toString();
+          getPrefixString = getFirstSevenDigit.toString();
+        });
+        getGCPLengthFromPRefix(deleteFirstDidgit, getFirstSevenDigit);
+      } else if (companyPrefix[i]['prefix'].toString() ==
+              getFirstFiveDigit.toString() ||
+          companyPrefix[i]['minValue'] == getFirstFiveDigit.toString() ||
+          companyPrefix[i]['maxValue'] == getFirstFiveDigit.toString() ||
+          (int.parse(companyPrefix[i]['minValue'].toString()) <
+                  int.parse(getFirstFiveDigit.toString()) &&
+              int.parse(companyPrefix[i]['maxValue'].toString()) >
+                  int.parse(getFirstFiveDigit.toString()))) {
+        // log(companyPrefix[i]['Country'].toString());
+        setState(() {
+          getCountryName = companyPrefix[i]['Country'].toString();
+          getPrefixString = getFirstFiveDigit.toString();
+        });
+        getGCPLengthFromPRefix(deleteFirstDidgit, getFirstFiveDigit);
+      } else if (companyPrefix[i]['prefix'].toString() ==
+              getFirstFourDigit.toString() ||
+          companyPrefix[i]['minValue'] == getFirstFourDigit.toString() ||
+          companyPrefix[i]['maxValue'] == getFirstFourDigit.toString() ||
+          int.parse(companyPrefix[i]['minValue'].toString()) <
+                  int.parse(getFirstFourDigit) &&
+              int.parse(companyPrefix[i]['maxValue'].toString()) >
+                  int.parse(getFirstFourDigit)) {
+        // log(companyPrefix[i]['Country'].toString());
+        setState(() {
+          getCountryName = companyPrefix[i]['Country'].toString();
+          getPrefixString = getFirstFourDigit.toString();
+        });
+        getGCPLengthFromPRefix(deleteFirstDidgit, getFirstFourDigit);
+      } else if (companyPrefix[i]['prefix'].toString() ==
+              getFirstThreeDigit.toString() ||
+          companyPrefix[i]['minValue'] == getFirstThreeDigit.toString() ||
+          companyPrefix[i]['maxValue'] == getFirstThreeDigit.toString() ||
+          int.parse(companyPrefix[i]['minValue'].toString()) <
+                  int.parse(getFirstThreeDigit) &&
+              int.parse(companyPrefix[i]['maxValue'].toString()) >
+                  int.parse(getFirstThreeDigit)) {
+        setState(() {
+          getCountryName = companyPrefix[i]['Country'].toString();
+          getPrefixString = getFirstThreeDigit.toString();
+        });
+        getGCPLengthFromPRefix(deleteFirstDidgit, getFirstThreeDigit);
+
+        // log(companyPrefix[i]['Country'].toString());
+
+      }
+    }
+  }
+
+  getGCPLengthFromPRefix(String? gTNILength, String? subStringPrefix) {
+    // log(gTNILength.toString());
+    // log(subStringPrefix.toString());
+
+    String? getSubStringt13Digit = gTNILength!.substring(0, gTNILength.length);
+    String? getSubString12Digit =
+        gTNILength.substring(0, gTNILength.length - 1);
+    String? getSubString11Digit =
+        gTNILength.substring(0, gTNILength.length - 2);
+    String? getSubString10Digit =
+        gTNILength.substring(0, gTNILength.length - 3);
+    String? getSubStringth9Digit =
+        gTNILength.substring(0, gTNILength.length - 4);
+    String? getSubString8Digit = gTNILength.substring(0, gTNILength.length - 5);
+    String? getSubString7Digit = gTNILength.substring(0, gTNILength.length - 6);
+    String? getSubString6Digit = gTNILength.substring(0, gTNILength.length - 7);
+    String? getSubString5Digit = gTNILength.substring(0, gTNILength.length - 8);
+    String? getSubString4Digit = gTNILength.substring(0, gTNILength.length - 9);
+    String? getSubString3Digit =
+        gTNILength.substring(0, gTNILength.length - 10);
+
+    for (int i = 0; i < gCPPrefixList.length; i++) {
+      if (gCPPrefixList[i]["prefix"].toString() ==
+          getSubStringt13Digit.toString()) {
+        int? getLength = int.parse(gCPPrefixList[i]["gcpLength"].toString());
+        setState(() {
+          getCGPLengthofString = gTNILength.substring(0, getLength).toString();
+        });
+      } else if (gCPPrefixList[i]["prefix"].toString() ==
+          getSubString12Digit.toString()) {
+        int? getLength = int.parse(gCPPrefixList[i]["gcpLength"].toString());
+        setState(() {
+          getCGPLengthofString = gTNILength.substring(0, getLength).toString();
+        });
+      } else if (gCPPrefixList[i]["prefix"].toString() ==
+          getSubString11Digit.toString()) {
+        int? getLength = int.parse(gCPPrefixList[i]["gcpLength"].toString());
+        setState(() {
+          getCGPLengthofString = gTNILength.substring(0, getLength).toString();
+        });
+      } else if (gCPPrefixList[i]["prefix"].toString() ==
+          getSubString10Digit.toString()) {
+        int? getLength = int.parse(gCPPrefixList[i]["gcpLength"].toString());
+        setState(() {
+          getCGPLengthofString = gTNILength.substring(0, getLength).toString();
+        });
+      } else if (gCPPrefixList[i]["prefix"].toString() ==
+          getSubStringth9Digit.toString()) {
+        int? getLength = int.parse(gCPPrefixList[i]["gcpLength"].toString());
+        setState(() {
+          getCGPLengthofString = gTNILength.substring(0, getLength).toString();
+        });
+      } else if (gCPPrefixList[i]["prefix"].toString() ==
+          getSubString8Digit.toString()) {
+        int? getLength = int.parse(gCPPrefixList[i]["gcpLength"].toString());
+        setState(() {
+          getCGPLengthofString = gTNILength.substring(0, getLength).toString();
+        });
+      } else if (gCPPrefixList[i]["prefix"].toString() ==
+          getSubString7Digit.toString()) {
+        int? getLength = int.parse(gCPPrefixList[i]["gcpLength"].toString());
+        setState(() {
+          getCGPLengthofString = gTNILength.substring(0, getLength).toString();
+        });
+      } else if (gCPPrefixList[i]["prefix"].toString() ==
+          getSubString6Digit.toString()) {
+        int? getLength = int.parse(gCPPrefixList[i]["gcpLength"].toString());
+        setState(() {
+          getCGPLengthofString = gTNILength.substring(0, getLength).toString();
+        });
+      } else if (gCPPrefixList[i]["prefix"].toString() ==
+          getSubString5Digit.toString()) {
+        int? getLength = int.parse(gCPPrefixList[i]["gcpLength"].toString());
+        setState(() {
+          getCGPLengthofString = gTNILength.substring(0, getLength).toString();
+        });
+      } else if (gCPPrefixList[i]["prefix"].toString() ==
+          getSubString4Digit.toString()) {
+        int? getLength = int.parse(gCPPrefixList[i]["gcpLength"].toString());
+        setState(() {
+          getCGPLengthofString = gTNILength.substring(0, getLength).toString();
+        });
+      } else if (gCPPrefixList[i]["prefix"].toString() ==
+          getSubString3Digit.toString()) {
+        int? getLength = int.parse(gCPPrefixList[i]["gcpLength"].toString());
+        setState(() {
+          getCGPLengthofString = gTNILength.substring(0, getLength).toString();
+        });
+      }
+    }
+
+    //  log("the length get is");
+    //  log(getCGPLengthofString.toString());
   }
 }

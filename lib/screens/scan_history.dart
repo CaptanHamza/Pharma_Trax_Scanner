@@ -7,6 +7,8 @@ import 'package:pharma_trax_scanner/screens/barcode__resultscreen.dart';
 import 'package:pharma_trax_scanner/screens/qr_result.dart';
 import 'package:pharma_trax_scanner/utils/colors.dart';
 
+import '../utils/globalValue.dart';
+
 class ScanHistory extends StatefulWidget {
   const ScanHistory({Key? key}) : super(key: key);
 
@@ -19,7 +21,6 @@ class ScanHistory extends StatefulWidget {
 class _ScanHistoryState extends State<ScanHistory> {
   final dbhelper = DataBaseHelper.instance;
 
-  bool _isShown = true;
   List<Map<String, dynamic>> data = [];
 
   Future<void> fatchData() async {
@@ -75,7 +76,6 @@ class _ScanHistoryState extends State<ScanHistory> {
                 onPressed: () async {
                   await dbhelper.deleteTable2();
                   setState(() {
-                    _isShown = false;
                     data = [];
                     Navigator.of(context).pop();
                   });
@@ -96,6 +96,7 @@ class _ScanHistoryState extends State<ScanHistory> {
   @override
   Widget build(BuildContext context) {
 Future<bool> _onWillPop() async {
+        indexClicked = 0;
        await Navigator.of(context).pushReplacementNamed('/home_screen');
     return true;
   }

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:pharma_trax_scanner/Widgets/about_pharma.dart';
 import 'package:pharma_trax_scanner/providers/auth_provider.dart';
+import 'package:pharma_trax_scanner/screens/CheckDigitPage.dart';
 import 'package:pharma_trax_scanner/screens/home_screen.dart';
 import 'package:pharma_trax_scanner/Widgets/line_level_hardware.dart';
 import 'package:pharma_trax_scanner/Widgets/how_it_works.dart';
@@ -18,14 +19,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 Future<void> main() async {
+   
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  
-   SharedPreferences pref =await SharedPreferences.getInstance();
-   
+  SharedPreferences pref =await SharedPreferences.getInstance();
     bool? checkData = pref.getBool('isLogin');
-    
-  
     runApp(
        MyApp(isLoginOrNMot: checkData,),
     );
@@ -77,6 +75,8 @@ class MyApp extends StatelessWidget {
     switch (settings.name) {
       case '/scan_history':
         return CustomPageRoute(child: ScanHistory(), settings: settings);
+         case '/check_digit':
+        return CustomPageRoute(child: CheckDigitPage(), settings: settings);
       case '/update_database':
         return CustomPageRoute(child: UpdateDatabase(), settings: settings);
       case '/line_level_hardware':

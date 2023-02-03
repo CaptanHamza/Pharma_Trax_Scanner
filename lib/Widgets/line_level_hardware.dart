@@ -5,6 +5,8 @@ import 'package:pharma_trax_scanner/Widgets/app_drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/globalValue.dart';
+
 class LineLevelHardware extends StatelessWidget {
   const LineLevelHardware({Key? key}) : super(key: key);
 
@@ -48,11 +50,14 @@ Pharma Trax Pro Line</a></p>
   @override
   Widget build(BuildContext context) {
 
+
      Future<bool> _onWillPop() async {
+        indexClicked = 0;
        await Navigator.of(context).pushReplacementNamed('/home_screen');
     return true;
   }
     return WillPopScope(
+      
       onWillPop:_onWillPop,
     
       child: Scaffold(
@@ -62,42 +67,45 @@ Pharma Trax Pro Line</a></p>
           title: const Text("Line Level HardWare"),
           backgroundColor: const Color(0xFF4A90CC),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                height: 200,
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.symmetric(horizontal: 0),
-                decoration: BoxDecoration(
-                  color: Color(0xFF4A90CC).withOpacity(0.5),
-                  image: DecorationImage(
-                      image: AssetImage(
-                        "assets/images/line_level_hardware.png",
-                      ),
-                      fit: BoxFit.cover),
+        body: Container(
+                      decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/dna.png',),fit: BoxFit.cover)),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  height: 200,
+                  width: MediaQuery.of(context).size.width,
+                  padding: EdgeInsets.symmetric(horizontal: 0),
+                  decoration: BoxDecoration(
+                    color: Color(0xFF4A90CC).withOpacity(0.5),
+                    image: DecorationImage(
+                        image: AssetImage(
+                          "assets/images/line_level_hardware.jpg",
+                        ),
+                        fit: BoxFit.cover),
+                  ),
+                  // child: Image.asset(
+                  //   "assets/images/about_pharma_trax.png",
+                  //   // color: const Color(0xFF4A90CC).withOpacity(0.9),
+                  //   // colorBlendMode: BlendMode.colorBurn,
+                  // ),
                 ),
-                // child: Image.asset(
-                //   "assets/images/about_pharma_trax.png",
-                //   // color: const Color(0xFF4A90CC).withOpacity(0.9),
-                //   // colorBlendMode: BlendMode.colorBurn,
-                // ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
-                child: HtmlWidget(
-                  htmldata,
-                  onTapUrl: (url) async {
-                    // print(url);
-                    var filePath = Uri.parse(url);
-                    //final Uri uri = Uri.file(filePath);
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+                  child: HtmlWidget(
+                    htmldata,
+                    onTapUrl: (url) async {
+                      // print(url);
+                      var filePath = Uri.parse(url);
+                      //final Uri uri = Uri.file(filePath);
     
-                    await launchUrl(filePath);
-                    return true;
-                  },
+                      await launchUrl(filePath);
+                      return true;
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
