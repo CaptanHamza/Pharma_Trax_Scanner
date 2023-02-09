@@ -436,14 +436,14 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
           } else if (getDaysSubString.contains("00") &&
               getMonthSubString.contains("00")) {
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+                "$afterAlldataNewstringgnoExistSpecial(${addNewYearMakeFullYear})";
           } else if (getDaysSubString.contains("00") &&
               !getMonthSubString.contains("00")) {
             String formatedate = DateFormat('MMMM')
                 .format(DateTime(0, int.parse(getMonthSubString)));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+                "$afterAlldataNewstringgnoExistSpecial($formatedate $addNewYearMakeFullYear)";
           } else if (getMonthSubString.contains("00")) {
             dateFormateParse = afterAlldataNewstringgnoExistSpecial;
           } else {
@@ -457,7 +457,7 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
                 DateFormat.yMMMMd().format(DateTime.parse(formatedate));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+                "$afterAlldataNewstringgnoExistSpecial(${formateDateData})";
           }
 
           resultMap.add({
@@ -513,14 +513,14 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
           } else if (getDaysSubString.contains("00") &&
               getMonthSubString.contains("00")) {
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+                "$afterAlldataNewstringgnoExistSpecial(${addNewYearMakeFullYear})";
           } else if (getDaysSubString.contains("00") &&
               !getMonthSubString.contains("00")) {
             String formatedate = DateFormat('MMMM')
                 .format(DateTime(0, int.parse(getMonthSubString)));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+                "$afterAlldataNewstringgnoExistSpecial($formatedate $addNewYearMakeFullYear)";
           } else if (getMonthSubString.contains("00")) {
             dateFormateParse = afterAlldataNewstringgnoExistSpecial;
           } else {
@@ -534,7 +534,7 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
                 DateFormat.yMMMMd().format(DateTime.parse(formatedate));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+                "$afterAlldataNewstringgnoExistSpecial(${formateDateData})";
           }
 
           resultMap.add({
@@ -739,14 +739,14 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
             if (getDaysSubString.contains("00") &&
                 getMonthSubString.contains("00")) {
               dateFormateParse =
-                  "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+                  "$afterAlldataNewstringgnoExistSpecial(${addNewYearMakeFullYear})";
             } else if (getDaysSubString.contains("00") &&
                 !getMonthSubString.contains("00")) {
               String formatedate = DateFormat('MMMM')
                   .format(DateTime(0, int.parse(getMonthSubString)));
 
               dateFormateParse =
-                  "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+                  "$afterAlldataNewstringgnoExistSpecial($formatedate $addNewYearMakeFullYear)";
             } else if (getMonthSubString.contains("00")) {
               dateFormateParse = afterAlldataNewstringgnoExistSpecial;
             } else {
@@ -760,7 +760,7 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
                   DateFormat.yMMMMd().format(DateTime.parse(formatedate));
 
               dateFormateParse =
-                  "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+                  "$afterAlldataNewstringgnoExistSpecial(${formateDateData})";
             }
 
             resultMap.add({
@@ -877,14 +877,14 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
           } else if (getDaysSubString.contains("00") &&
               getMonthSubString.contains("00")) {
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+                "$afterAlldataNewstringgnoExistSpecial(${addNewYearMakeFullYear})";
           } else if (getDaysSubString.contains("00") &&
               !getMonthSubString.contains("00")) {
             String formatedate = DateFormat('MMMM')
                 .format(DateTime(0, int.parse(getMonthSubString)));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+                "$afterAlldataNewstringgnoExistSpecial($formatedate $addNewYearMakeFullYear)";
           } else if (getMonthSubString.contains("00")) {
             dateFormateParse = afterAlldataNewstringgnoExistSpecial;
           } else {
@@ -898,7 +898,7 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
                 DateFormat.yMMMMd().format(DateTime.parse(formatedate));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+                "$afterAlldataNewstringgnoExistSpecial(${formateDateData})";
           }
 
           resultMap.add({
@@ -948,14 +948,14 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
           } else if (getDaysSubString.contains("00") &&
               getMonthSubString.contains("00")) {
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+                "$afterAlldataNewstringgnoExistSpecial(${addNewYearMakeFullYear})";
           } else if (getDaysSubString.contains("00") &&
               !getMonthSubString.contains("00")) {
             String formatedate = DateFormat('MMMM')
                 .format(DateTime(0, int.parse(getMonthSubString)));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+                "$afterAlldataNewstringgnoExistSpecial($formatedate $addNewYearMakeFullYear)";
           } else if (getMonthSubString.contains("00")) {
             dateFormateParse = afterAlldataNewstringgnoExistSpecial;
           } else {
@@ -969,7 +969,7 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
                 DateFormat.yMMMMd().format(DateTime.parse(formatedate));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+                "$afterAlldataNewstringgnoExistSpecial(${formateDateData})";
           }
 
           resultMap.add({
@@ -1081,14 +1081,14 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
           } else if (getDaysSubString.contains("00") &&
               getMonthSubString.contains("00")) {
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+                "$afterAlldataNewstringgnoExistSpecial(${addNewYearMakeFullYear})";
           } else if (getDaysSubString.contains("00") &&
               !getMonthSubString.contains("00")) {
             String formatedate = DateFormat('MMMM')
                 .format(DateTime(0, int.parse(getMonthSubString)));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+                "$afterAlldataNewstringgnoExistSpecial($formatedate $addNewYearMakeFullYear)";
           } else if (getMonthSubString.contains("00")) {
             dateFormateParse = afterAlldataNewstringgnoExistSpecial;
           } else {
@@ -1102,7 +1102,7 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
                 DateFormat.yMMMMd().format(DateTime.parse(formatedate));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+                "$afterAlldataNewstringgnoExistSpecial(${formateDateData})";
           }
 
           resultMap.add({
@@ -1157,14 +1157,14 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
           } else if (getDaysSubString.contains("00") &&
               getMonthSubString.contains("00")) {
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+                "$afterAlldataNewstringgnoExistSpecial(${addNewYearMakeFullYear})";
           } else if (getDaysSubString.contains("00") &&
               !getMonthSubString.contains("00")) {
             String formatedate = DateFormat('MMMM')
                 .format(DateTime(0, int.parse(getMonthSubString)));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+                "$afterAlldataNewstringgnoExistSpecial($formatedate $addNewYearMakeFullYear)";
           } else if (getMonthSubString.contains("00")) {
             dateFormateParse = afterAlldataNewstringgnoExistSpecial;
           } else {
@@ -1178,7 +1178,7 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
                 DateFormat.yMMMMd().format(DateTime.parse(formatedate));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+                "$afterAlldataNewstringgnoExistSpecial(${formateDateData})";
           }
 
           resultMap.add({
@@ -1291,14 +1291,14 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
           } else if (getDaysSubString.contains("00") &&
               getMonthSubString.contains("00")) {
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${addNewYearMakeFullYear})";
+                "$afterAlldataNewstringgnoExistSpecial(${addNewYearMakeFullYear})";
           } else if (getDaysSubString.contains("00") &&
               !getMonthSubString.contains("00")) {
             String formatedate = DateFormat('MMMM')
                 .format(DateTime(0, int.parse(getMonthSubString)));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial ($formatedate $addNewYearMakeFullYear)";
+                "$afterAlldataNewstringgnoExistSpecial($formatedate $addNewYearMakeFullYear)";
           } else if (getMonthSubString.contains("00")) {
             dateFormateParse = afterAlldataNewstringgnoExistSpecial;
           } else {
@@ -1312,7 +1312,7 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
                 DateFormat.yMMMMd().format(DateTime.parse(formatedate));
 
             dateFormateParse =
-                "$afterAlldataNewstringgnoExistSpecial (${formateDateData})";
+                "$afterAlldataNewstringgnoExistSpecial(${formateDateData})";
           }
 
           resultMap.add({
@@ -1576,525 +1576,599 @@ class _QRCodeResultScreenState extends State<QRCodeResultScreen> {
           child: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/dna.png',),fit: BoxFit.cover)),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                  color: resultbackgroundColor,
-                    width: MediaQuery.of(context).size.width,
-                    
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            
-                    child: Column(
-                      children: [
-                        resultMap.isNotEmpty
-                            ? Text(
-                                "DATA MATRIX (GS1)",
-                                style: GoogleFonts.roboto(
-                                    color: Colors.black.withOpacity(0.5),
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            : Text(
-                                'DATA MATRIX',
-                                style: GoogleFonts.roboto(
-                                    color: Colors.black.withOpacity(0.5),
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-            
-                        getSpecialCharacter != '29'
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text('${widget.qrCode}'),
-                                ],
-                              )
-                            : Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: qrResultConvertList.map((item) {
-                                  if (item == widget.qrCode![0]) {
-                                    return const Text(
-                                      'FNC',
-                                      style: TextStyle(
-                                        color: colorPrimaryLightBlue,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                    );
-                                  } else {
-                                    return Text(
-                                      item.toString(),
-                                      style: TextStyle(
-                                          color: Colors.black54, fontSize: 16),
-                                    );
-                                  }
-                                  // if (item < 100) {
-                                  //   return Padding(
-                                  //     padding: const EdgeInsets.all(8.0),
-                                  //     child: Text(
-                                  //       item.toString(),
-                                  //       style: const TextStyle(
-                                  //         fontWeight: FontWeight.bold,
-                                  //         color: Colors.red,
-                                  //       ),
-                                  //     ),
-                                  //   );
-                                  // }
-                                  // if (item == 100) {
-                                  //   return Padding(
-                                  //     padding: const EdgeInsets.all(8.0),
-                                  //     child: Text(
-                                  //       item.toString(),
-                                  //       style: TextStyle(
-                                  //         fontWeight: FontWeight.bold,
-                                  //         color: Colors.green,
-                                  //       ),
-                                  //     ),
-                                  //   );
-                                  // }
-                                }).toList()),
-                        // Text(
-                        //   "${widget.qrCode}",
-                        //   style: GoogleFonts.roboto(
-                        //       color: Colors.black.withOpacity(0.5),
-                        //       fontSize: 18,
-                        //       fontWeight: FontWeight.w300),
-                        // )
-                      ],
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(
+                      'assets/images/dna.png',
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  getSpecialCharacter != '29'
-                      ? Container(
-                          alignment: Alignment.center,
-                          child: Center(
-                            child: Text(
-                              'Not Found Valid AI',
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 18,
+                    fit: BoxFit.cover)),
+            child: SingleChildScrollView(
+              child: Column(children: [
+                Container(
+                  color: resultbackgroundColor,
+                  width: MediaQuery.of(context).size.width,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Column(
+                    children: [
+                      resultMap.isNotEmpty
+                          ? Text(
+                              "DATA MATRIX (GS1)",
+                              style: GoogleFonts.roboto(
+                                  color: Colors.black.withOpacity(0.5),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          : Text(
+                              'DATA MATRIX',
+                              style: GoogleFonts.roboto(
+                                  color: Colors.black.withOpacity(0.5),
+                                  fontSize: 24,
                                   fontWeight: FontWeight.bold),
                             ),
+                      const SizedBox(height: 8),
+
+                      getSpecialCharacter != '29'
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('${widget.qrCode}'),
+                              ],
+                            )
+                          : Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: qrResultConvertList.map((item) {
+                                if (item == widget.qrCode![0]) {
+                                  return const Text(
+                                    'FNC',
+                                    style: TextStyle(
+                                      color: colorPrimaryLightBlue,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  );
+                                } else {
+                                  return Text(
+                                    item.toString(),
+                                    style: TextStyle(
+                                        color: Colors.black54, fontSize: 16),
+                                  );
+                                }
+                                // if (item < 100) {
+                                //   return Padding(
+                                //     padding: const EdgeInsets.all(8.0),
+                                //     child: Text(
+                                //       item.toString(),
+                                //       style: const TextStyle(
+                                //         fontWeight: FontWeight.bold,
+                                //         color: Colors.red,
+                                //       ),
+                                //     ),
+                                //   );
+                                // }
+                                // if (item == 100) {
+                                //   return Padding(
+                                //     padding: const EdgeInsets.all(8.0),
+                                //     child: Text(
+                                //       item.toString(),
+                                //       style: TextStyle(
+                                //         fontWeight: FontWeight.bold,
+                                //         color: Colors.green,
+                                //       ),
+                                //     ),
+                                //   );
+                                // }
+                              }).toList()),
+                      // Text(
+                      //   "${widget.qrCode}",
+                      //   style: GoogleFonts.roboto(
+                      //       color: Colors.black.withOpacity(0.5),
+                      //       fontSize: 18,
+                      //       fontWeight: FontWeight.w300),
+                      // )
+                    ],
+                  ),
+                ),
+                getSpecialCharacter != '29'
+                    ? Container(
+                        padding: EdgeInsets.only(top: 10),
+                        margin: EdgeInsets.symmetric(horizontal: 20),
+                        alignment: Alignment.center,
+                        child: Center(
+                          child: Text(
+                            'Not Found Valid AI',
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
                           ),
-                        )
-                      : Container(
+                        ),
+                      )
+                    : Container(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            resultMap.length == 0
-                                ? Text(
-                                    'Invalid Data Matrix',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      color: Colors.red,
-                                    ),
-                                  )
-                                : 
-                            Container(
-                              padding: EdgeInsets.only(top: 15),
-                              margin: EdgeInsets.symmetric(horizontal: 20),
-                              decoration: BoxDecoration(
-                                border: Border.all(width: 0.5,color: Colors.black45)
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                      "SCANNED INFORMATION",
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              resultMap.length == 0
+                                  ? Text(
+                                      'Invalid Data Matrix',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 18,
-                                        color: Colors.black.withOpacity(0.5),
+                                        color: Colors.red,
                                       ),
-                                    ),
-                              const SizedBox(
-                                height: 15,
-                              ),
-                                  getCountryName!.isEmpty
-                                      ? Container()
-                                      : 
-                                      Container(
-                                     padding: EdgeInsets.symmetric(vertical: 10,horizontal: 5),
-                              // margin: EdgeInsets.symmetric(horizontal: 5),
-                              decoration: BoxDecoration(
-                                border: Border(top: BorderSide(color: Colors.black45,width: 0.5),
-                                bottom: BorderSide(color: Colors.black45,width: 0.5)
-                                )
-                              ),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                          // mainAxisAlignment:
-                                          //     MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "The Product is from",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black54),
-                                            ),
-                                            Text(
-                                              " ${getCountryName} (${getPrefixString})",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  color: colorPrimaryLightBlue),
-                                            ),
-                                          ],
-                                        ),
-                                  getCGPLengthofString!.isEmpty
-                                      ? Container()
-                                      : Row(
-                                          // mainAxisAlignment:
-                                          //     MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              "GCP is",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black54),
-                                            ),
-                                            Text(
-                                              " ${getCGPLengthofString}",
-                                              style: const TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  color: colorPrimaryLightBlue),
-                                            ),
-                                          ],
-                                        ),
-                                
-                                        ],),
-                                      ),
-                                      
-                                    
-                                
-                                
-                                
-                                 
-            
-            
-            
-            
-                          
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-                                  for (int i = 0; i < resultMap.length; i++)
-                                    Container(
-                                      // decoration: BoxDecoration(
-                                        
-                                      //   border: Border(
-                                      //     bottom:i == resultMap.length-1 ?BorderSide(width: 0,color:  Colors.black12) 
-                                      //   :  BorderSide(color:  Colors.black54) 
-                                      //   )
-                                      // ),
-                                      alignment: Alignment.center,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 0, vertical: 0),
-                                      child: Container(
-                                         decoration: BoxDecoration(
-                                        
-                                        border: Border(
-                                          bottom:i == resultMap.length-1 ?BorderSide(width: 0,color:  Colors.black12) 
-                                        :  BorderSide(color:  Colors.black45,width: 0.5) 
-                                        )
-                                      ),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
+                                    )
+                                  : Container(
+                                      padding: EdgeInsets.only(top: 10),
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 20),
+                                      child: Table(
+                                        columnWidths: const <int,
+                                            TableColumnWidth>{
+                                          0: FlexColumnWidth(1),
+                                        },
+                                        defaultVerticalAlignment:
+                                            TableCellVerticalAlignment.middle,
+                                        children: <TableRow>[
+                                          TableRow(children: <Widget>[
                                             Container(
-                                              padding: EdgeInsets.only(right: 5,top: 8,bottom: 8,left: 5),
+                                              padding: EdgeInsets.only(
+                                                  top: 10, bottom: 10),
                                               decoration: BoxDecoration(
-                                              //  border: Border(right: BorderSide(width: 0.5, color: Colors.black))
-                                              ),
-                                              width: MediaQuery.of(context).size.width*0.4,
-                                              child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                              
-                                                children: [
-                                              Expanded(
-                                                child: Text(
-                                                  '${resultMap[i]['title']}(${resultMap[i]['identifer']})',
-                                                  style: const TextStyle(
-                                                      fontWeight: FontWeight.w600,
-                                                      color:
-                                                          colorPrimaryLightBlue),
+                                                  border: Border(
+                                                      top: BorderSide(
+                                                          color: Colors.black45,
+                                                          width: 0.5),
+                                                      left: BorderSide(
+                                                          color: Colors.black45,
+                                                          width: 0.5),
+                                                      right: BorderSide(
+                                                          color: Colors.black45,
+                                                          width: 0.5))),
+                                              child: Text(
+                                                "SCANNED INFORMATION",
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18,
+                                                  color: Colors.black
+                                                      .withOpacity(0.5),
                                                 ),
                                               ),
-                                              // Text(
-                                               
-                                              //   style: const TextStyle(
-                                              //       fontWeight: FontWeight.bold,
-                                              //       color:
-                                              //           colorPrimaryLightBlue),
-                                              // ),
-                                                ],
-                                              ),
                                             ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            Expanded(
-                                                child: Container(
-            
+                                          ]),
+                                          TableRow(children: <Widget>[
+                                            getCountryName!.isEmpty
+                                                ? Container()
+                                                : Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            vertical: 10,
+                                                            horizontal: 5),
                                                     decoration: BoxDecoration(
-                                                border: Border(left: BorderSide(color: Colors.black45,width: 0.5))
-                                              ),
-                                              padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 5),
-                                                  child: Text(
-                                              '${resultMap[i]['value']}',
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                    color: Colors.black54),
-                                            ),
-                                                )),
-                                            const SizedBox(
-                                              height: 5,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 25,
-                            ),
-                            productName == null &&
-                                    CompanyName == null &&
-                                    suplychain == null
-                                ? Container()
-                                : Container(
-                                  padding: EdgeInsets.only(top: 10),
-                                  margin: EdgeInsets.symmetric(horizontal: 20),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(width: 0.5,color: Colors.black45)
-                                  ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "MASTER DATA",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18,
-                                            color:
-                                                Colors.black.withOpacity(0.5),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        productName == null
-                                            ? Center()
-                                            : Container(
-                                              alignment: Alignment.centerLeft,
-                                            
-                                              decoration:BoxDecoration(
-                                               border:Border(
-                                                top: BorderSide(width: 0.5, color: Colors.black45),
-                                                bottom: BorderSide(width: 0.5, color: Colors.black45)
-                                              ),
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                     
-                                                  children: [
-                                                    Container(
-                                                      padding: EdgeInsets.symmetric(horizontal: 5),
-                                                      width: MediaQuery.of(context).size.width*0.4+05,
-                                                      child: Text(
-                                                        'PRODUCT',
-                                                        
-                                                        textAlign:
-                                                            TextAlign.start,
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color:
-                                                                colorPrimaryLightBlue),
-                                                      ),
-                                                    ),
-                                                   
-                                                    Expanded(
-                                                      
-                                                      child: productName == null
-                                                          ? Text('')
-                                                          : Container(
-            
-                                                              padding: EdgeInsets.symmetric(vertical: 5 , horizontal: 5),
-                                                            decoration: BoxDecoration(
-                                                              border: Border(left: BorderSide( width: 0.5,color: Colors.black45))
-                                                            ),
-                                                            child: Text(
-                                                                '$productName',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black54),
-                                                                // style: const TextStyle(
-                                                                //     fontWeight: FontWeight.bold,
-                                                                //     color: blueColor1),
-                                                              ),
-                                                          ),
-                                                    ),
-                                                  ],
+                                                        border: Border(
+                                                            top: BorderSide(
+                                                                color: Colors
+                                                                    .black45,
+                                                                width: 0.5),
+                                                            left: BorderSide(
+                                                                color: Colors
+                                                                    .black45,
+                                                                width: 0.5),
+                                                            right: BorderSide(
+                                                                color: Colors
+                                                                    .black45,
+                                                                width: 0.5))),
+                                                    child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Text(
+                                                                  "The Product is from",
+                                                                  style: const TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      color: Colors
+                                                                          .black54),
+                                                                ),
+                                                                Text(
+                                                                  " ${getCountryName}(${getPrefixString})",
+                                                                  style: const TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      color:
+                                                                          colorPrimaryLightBlue),
+                                                                ),
+                                                              ]),
+                                                          getCGPLengthofString!
+                                                                  .isEmpty
+                                                              ? Container()
+                                                              : Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Text(
+                                                                      "GCP is",
+                                                                      style: const TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              Colors.black54),
+                                                                    ),
+                                                                    Text(
+                                                                      " ${getCGPLengthofString}",
+                                                                      style: const TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              colorPrimaryLightBlue),
+                                                                    ),
+                                                                  ],
+                                                                )
+                                                        ]),
+                                                  ),
+                                          ]),
+                                          TableRow(children: <Widget>[
+                                            Table(
+                                              border: TableBorder.all(
+                                                  color: Colors.black45,
+                                                  width: 0.5),
+                                              columnWidths: <int,
+                                                  TableColumnWidth>{
+                                                0: MinColumnWidth(
+                                                  const IntrinsicColumnWidth(),
+                                                  FixedColumnWidth(
+                                                    MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.4 +
+                                                        05,
+                                                  ),
                                                 ),
-                                            ),
-                                      
-            
-            
-            
-            
-            
-            
-                                        CompanyName == null
-                                            ? Center()
-                                            : Container(
-                                              alignment: Alignment.centerLeft,
-                                            
-                                              decoration:BoxDecoration(
-                                               border:Border(
-                                                //top: BorderSide(width: 0.5, color: Colors.black45),
-                                                bottom:   suplychain == null &&
-                                                suplychain.runtimeType == Null ? BorderSide(width: 0, color: Colors.white) : BorderSide(width: 0.5, color: Colors.black45)
-                                              ),
-                                              ),
-                                              child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                       alignment: Alignment.centerLeft,
-                                                        padding: EdgeInsets.symmetric(horizontal: 5),
-                                                      width: MediaQuery.of(context).size.width*0.4+05,
-                                                      child: Text(
-                                                        'COMPANY',
-                                                        textAlign:
-                                                            TextAlign.end,
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color:
-                                                                colorPrimaryLightBlue),
-                                                      ),
-                                                    ),
-                                                   
-                                                    Expanded(
-                                                      flex: 2,
-                                                      child: CompanyName == null
-                                                          ? Text('')
-                                                          : Container(
-                                                              padding: EdgeInsets.symmetric(vertical: 5 , horizontal: 5),
-                                                            decoration: BoxDecoration(
-                                                              border: Border(left: BorderSide( width: 0.5,color: Colors.black45))
-                                                            ),
-                                                            child: Text(
-                                                                '$CompanyName',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .black54),
-                                                                //  style: const TextStyle(
-                                                                //      fontWeight: FontWeight.bold,
-                                                                //      color: blueColor1),
-                                                              ),
-                                                          ),
-                                                    ),
-                                                  ],
-                                                ),
-                                            ),
-                                       
-                                       
-                                        suplychain == null &&
-                                                suplychain.runtimeType == Null
-                                            ? Container()
-                                            :
-                                             Container(
-                                                 alignment: Alignment.centerLeft,
-                                            
-                                              decoration:BoxDecoration(
-                                              
-                                              ),
-                                              child: Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                       alignment: Alignment.centerLeft,
-                                                        padding: EdgeInsets.symmetric(horizontal: 5),
-                                                      width: MediaQuery.of(context).size.width*0.4+05,
-                                                      child: Text(
-                                                        'SUPPLY CHAIN',
-                                                        textAlign:
-                                                            TextAlign.end,
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                            color:
-                                                                colorPrimaryLightBlue),
-                                                      ),
-                                                    ),
-                                                   
-                                                    Expanded(
-                                                      flex: 2,
+                                                1: const FlexColumnWidth(1)
+                                              },
+                                              defaultVerticalAlignment:
+                                                  TableCellVerticalAlignment
+                                                      .middle,
+                                              children: <TableRow>[
+                                                for (int i = 0;
+                                                    i < resultMap.length;
+                                                    i++) ...[
+                                                  TableRow(children: <Widget>[
+                                                    TableCell(
+                                                      verticalAlignment:
+                                                          TableCellVerticalAlignment
+                                                              .top,
                                                       child: Container(
-                                                         padding: EdgeInsets.symmetric(vertical: 5 , horizontal: 5),
-                                                            decoration: BoxDecoration(
-                                                              border: Border(left: BorderSide( width: 0.5,color: Colors.black45))
-                                                            ),
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                          right: 5,
+                                                          top: 8,
+                                                          bottom: 8,
+                                                          left: 5,
+                                                        ),
                                                         child: Text(
-                                                          '${suplychain}',
+                                                          '${resultMap[i]['title']}(${resultMap[i]['identifer']})',
+                                                          textAlign:
+                                                              TextAlign.start,
                                                           style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
                                                               color:
-                                                                  Colors.black54),
+                                                                  colorPrimaryLightBlue),
                                                         ),
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
+                                                    TableCell(
+                                                      verticalAlignment:
+                                                          TableCellVerticalAlignment
+                                                              .top,
+                                                      child: Container(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                          right: 5,
+                                                          top: 8,
+                                                          bottom: 8,
+                                                          left: 5,
+                                                        ),
+                                                        child: Text(
+                                                          '${resultMap[i]['value']}',
+                                                          textAlign:
+                                                              TextAlign.start,
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .black54),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ]),
+                                                ]
+                                              ],
                                             ),
-                                          
-                                      ],
+                                          ]),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                    SizedBox(height: 20,),
-                          ],
-                        ),
+                              SizedBox(height: 10),
+                              productName == null &&
+                                      CompanyName == null &&
+                                      suplychain == null
+                                  ? Container()
+                                  : Container(
+                                      padding: EdgeInsets.only(top: 10),
+                                      margin:
+                                          EdgeInsets.symmetric(horizontal: 20),
+                                      child: Table(
+                                          columnWidths: const <int,
+                                              TableColumnWidth>{
+                                            0: FlexColumnWidth(1),
+                                          },
+                                          defaultVerticalAlignment:
+                                              TableCellVerticalAlignment.middle,
+                                          children: <TableRow>[
+                                            TableRow(children: <Widget>[
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                  top: BorderSide(
+                                                      color: Colors.black45,
+                                                      width: 0.5),
+                                                  left: BorderSide(
+                                                      color: Colors.black45,
+                                                      width: 0.5),
+                                                  right: BorderSide(
+                                                      color: Colors.black45,
+                                                      width: 0.5),
+                                                )),
+                                                padding: EdgeInsets.only(
+                                                    top: 10, bottom: 10),
+                                                child: Text(
+                                                  "MASTER DATA",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18,
+                                                    color: Colors.black
+                                                        .withOpacity(0.5),
+                                                  ),
+                                                ),
+                                              ),
+                                            ]),
+                                            TableRow(children: <Widget>[
+                                              Table(
+                                                  border: TableBorder.all(
+                                                      color: Colors.black45,
+                                                      width: 0.5),
+                                                  columnWidths: <int,
+                                                      TableColumnWidth>{
+                                                    0: MinColumnWidth(
+                                                      const IntrinsicColumnWidth(),
+                                                      FixedColumnWidth(
+                                                        MediaQuery.of(context)
+                                                                    .size
+                                                                    .width *
+                                                                0.4 +
+                                                            05,
+                                                      ),
+                                                    ),
+                                                    1: const FlexColumnWidth(1)
+                                                  },
+                                                  defaultVerticalAlignment:
+                                                      TableCellVerticalAlignment
+                                                          .middle,
+                                                  children: <TableRow>[
+                                                    productName == null
+                                                        ? TableRow(
+                                                            children: <Widget>[
+                                                                Container(),
+                                                                Container(),
+                                                              ])
+                                                        : TableRow(
+                                                            children: <Widget>[
+                                                                TableCell(
+                                                                  verticalAlignment:
+                                                                      TableCellVerticalAlignment
+                                                                          .top,
+                                                                  child:
+                                                                      Container(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .only(
+                                                                      right: 5,
+                                                                      top: 8,
+                                                                      bottom: 8,
+                                                                      left: 5,
+                                                                    ),
+                                                                    child: Text(
+                                                                      'PRODUCT',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .start,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              colorPrimaryLightBlue),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                productName ==
+                                                                        null
+                                                                    ? Text('')
+                                                                    : TableCell(
+                                                                        verticalAlignment:
+                                                                            TableCellVerticalAlignment.top,
+                                                                        child:
+                                                                            Container(
+                                                                          padding:
+                                                                              EdgeInsets.only(
+                                                                            right:
+                                                                                5,
+                                                                            top:
+                                                                                8,
+                                                                            bottom:
+                                                                                8,
+                                                                            left:
+                                                                                5,
+                                                                          ),
+                                                                          child:
+                                                                              Text(
+                                                                            '$productName',
+                                                                            textAlign:
+                                                                                TextAlign.start,
+                                                                            style:
+                                                                                TextStyle(color: Colors.black54),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                              ]),
+                                                    CompanyName == null
+                                                        ? TableRow(
+                                                            children: <Widget>[
+                                                                Container(),
+                                                                Container(),
+                                                              ])
+                                                        : TableRow(
+                                                            children: <Widget>[
+                                                                TableCell(
+                                                                  verticalAlignment:
+                                                                      TableCellVerticalAlignment
+                                                                          .top,
+                                                                  child:
+                                                                      Container(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .only(
+                                                                      right: 5,
+                                                                      top: 8,
+                                                                      bottom: 8,
+                                                                      left: 5,
+                                                                    ),
+                                                                    child: Text(
+                                                                      'COMPANY',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .start,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              colorPrimaryLightBlue),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                CompanyName ==
+                                                                        null
+                                                                    ? Text('')
+                                                                    : TableCell(
+                                                                        verticalAlignment:
+                                                                            TableCellVerticalAlignment.top,
+                                                                        child:
+                                                                            Container(
+                                                                          padding:
+                                                                              EdgeInsets.only(
+                                                                            right:
+                                                                                5,
+                                                                            top:
+                                                                                8,
+                                                                            bottom:
+                                                                                8,
+                                                                            left:
+                                                                                5,
+                                                                          ),
+                                                                          child:
+                                                                              Text(
+                                                                            '$CompanyName',
+                                                                            textAlign:
+                                                                                TextAlign.start,
+                                                                            style:
+                                                                                TextStyle(color: Colors.black54),
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                              ]),
+                                                    suplychain == null &&
+                                                            suplychain
+                                                                    .runtimeType ==
+                                                                Null
+                                                        ? TableRow(
+                                                            children: <Widget>[
+                                                                Container(),
+                                                                Container(),
+                                                              ])
+                                                        : TableRow(
+                                                            children: <Widget>[
+                                                                TableCell(
+                                                                  verticalAlignment:
+                                                                      TableCellVerticalAlignment
+                                                                          .top,
+                                                                  child:
+                                                                      Container(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .only(
+                                                                      right: 5,
+                                                                      top: 8,
+                                                                      bottom: 8,
+                                                                      left: 5,
+                                                                    ),
+                                                                    child: Text(
+                                                                      'SUPPLY CHAIN',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .start,
+                                                                      style: TextStyle(
+                                                                          fontWeight: FontWeight
+                                                                              .w600,
+                                                                          color:
+                                                                              colorPrimaryLightBlue),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                TableCell(
+                                                                  verticalAlignment:
+                                                                      TableCellVerticalAlignment
+                                                                          .top,
+                                                                  child:
+                                                                      Container(
+                                                                    padding:
+                                                                        EdgeInsets
+                                                                            .only(
+                                                                      right: 5,
+                                                                      top: 8,
+                                                                      bottom: 8,
+                                                                      left: 5,
+                                                                    ),
+                                                                    child: Text(
+                                                                      '${suplychain}',
+                                                                      textAlign:
+                                                                          TextAlign
+                                                                              .start,
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.black54),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ]),
+                                                  ]),
+                                            ]),
+                                          ]),
+                                    ),
+                              SizedBox(height: 60),
+                            ]),
                       ),
-            
-                        SizedBox(height: 40,),
-                ],
-              ),
+              ]),
             ),
           ),
         ),

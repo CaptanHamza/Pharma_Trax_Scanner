@@ -74,7 +74,7 @@ class AuthProvider with ChangeNotifier {
         http.Response response = await http.post(
             Uri.parse(
               'https://api.pharmasync.pk/api/account/register',
-             // 'http://192.168.100.87:3003/api/account/register',
+              // 'http://192.168.100.87:3003/api/account/register',
             ),
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
@@ -84,7 +84,7 @@ class AuthProvider with ChangeNotifier {
         if (response.statusCode == 200) {
           Map getResponseData = jsonDecode(response.body);
 
-         // log(getResponseData.toString());
+          // log(getResponseData.toString());
           _expirySecond = getResponseData['expires_in'];
           _token = getResponseData['access_token'];
 
@@ -116,7 +116,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
- Future<dynamic>? getUpdateApiCall() async {
+  Future<dynamic>? getUpdateApiCall() async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? version = prefs.getString("version");
@@ -124,8 +124,8 @@ class AuthProvider with ChangeNotifier {
 
       http.Response response = await http.get(
         Uri.parse(
-           'https://api.pharmasync.pk/api/gtin',
-         // 'http://192.168.100.87:3003/api/gtin',
+          'https://api.pharmasync.pk/api/gtin',
+          // 'http://192.168.100.87:3003/api/gtin',
         ),
         headers: <String, String>{
           'Authorization': 'Bearer ${gettoken}',
@@ -135,15 +135,15 @@ class AuthProvider with ChangeNotifier {
 
       if (response.statusCode == 200) {
         Map getApiData = jsonDecode(response.body);
-      //  log(getApiData.toString());
+        //  log(getApiData.toString());
 
         final dbhelper = DataBaseHelper.instance;
         List<Map<String, dynamic>> data = [];
 
         if (getApiData['Info']['Status'] == -1) {
-         // Fluttertoast.showToast(msg: 'Something went wrong');
+          // Fluttertoast.showToast(msg: 'Something went wrong');
         } else if (getApiData['Info']['Status'] == 0) {
-        //  Fluttertoast.showToast(msg: 'Already updated to latest version');
+          //  Fluttertoast.showToast(msg: 'Already updated to latest version');
         } else if (getApiData['Info']['Status'] == 1 && version != "0") {
           Fluttertoast.showToast(msg: 'Updated to latest version');
           for (int i = 0; i < getApiData['Companies'].length; i++) {
@@ -159,12 +159,12 @@ class AuthProvider with ChangeNotifier {
           updateDBVersion(getApiData['Info']['Version'].toString());
         }
       } else {
-       // Fluttertoast.showToast(msg: 'Something went wrong');
+        // Fluttertoast.showToast(msg: 'Something went wrong');
       }
 
       return response.body;
     } catch (e) {
-    //  Fluttertoast.showToast(msg: 'Something went wrong');
+      //  Fluttertoast.showToast(msg: 'Something went wrong');
       e.toString();
     }
   }
@@ -216,22 +216,5 @@ class AuthProvider with ChangeNotifier {
 //   return  (prefs.getBool('isLogin') == null) ? false : prefs.getBool('isLogin');
 
 // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
