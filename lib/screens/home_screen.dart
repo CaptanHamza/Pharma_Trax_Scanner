@@ -1,6 +1,3 @@
-
-
-
 import 'dart:developer';
 
 import 'package:flutter/gestures.dart';
@@ -19,6 +16,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import '../Widgets/app_drawer.dart';
 
 import '../providers/auth_provider.dart';
@@ -38,14 +36,23 @@ class _HomePageState extends State<HomePage> {
   final dbhelper = DataBaseHelper.instance;
   SharedPreferences? prefs;
   AuthProvider provider = AuthProvider();
+  String? version;
+  PackageInfo? packageInfo;
 
   @override
   void initState() {
-          indexClicked = 0;
+    indexClicked = 0;
     getSharePrefenceValue();
+    getPackageInfo();
     checkDBUpdate();
     // SaveValueInPrefecnce();
     super.initState();
+  }
+
+  Future getPackageInfo() async {
+    packageInfo = await PackageInfo.fromPlatform();
+    version = packageInfo!.version;
+    setState(() {});
   }
 
   checkDBUpdate() async {
@@ -237,16 +244,19 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       GestureDetector(
                         onTap: () async {
-                          PermissionStatus camerstatus = await Permission.camera.request();
+                          PermissionStatus camerstatus =
+                              await Permission.camera.request();
                           if (camerstatus == PermissionStatus.granted) {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (_) => const BarCodeScanner()));
                           }
-                          if(camerstatus == PermissionStatus.denied){
-                            Fluttertoast.showToast(msg: "You need to provide camera permission");
+                          if (camerstatus == PermissionStatus.denied) {
+                            Fluttertoast.showToast(
+                                msg: "You need to provide camera permission");
                           }
-                           if(camerstatus == PermissionStatus.permanentlyDenied) {
-                       openAppSettings();
+                          if (camerstatus ==
+                              PermissionStatus.permanentlyDenied) {
+                            openAppSettings();
                           }
                         },
                         child: Container(
@@ -282,19 +292,22 @@ class _HomePageState extends State<HomePage> {
                       ),
                       GestureDetector(
                         onTap: () async {
-                        PermissionStatus camerstatus = await Permission.camera.request();
-
+                          PermissionStatus camerstatus =
+                              await Permission.camera.request();
 
                           if (camerstatus == PermissionStatus.granted) {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (_) => DataMatrixSacnner()));
                           }
-                          if(camerstatus == PermissionStatus.denied){
-                            Fluttertoast.showToast(msg: "You need to provide camera permission");
+                          if (camerstatus == PermissionStatus.denied) {
+                            Fluttertoast.showToast(
+                                msg: "You need to provide camera permission");
                           }
-                           if(camerstatus == PermissionStatus.permanentlyDenied) {
-                             PermissionStatus camerstatus = await Permission.camera.request();
-                       openAppSettings();
+                          if (camerstatus ==
+                              PermissionStatus.permanentlyDenied) {
+                            PermissionStatus camerstatus =
+                                await Permission.camera.request();
+                            openAppSettings();
                           }
                         },
                         child: Container(
@@ -337,7 +350,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "PHARMA TRAX",
+                        "PHARMA TRAX SCANNER(v$version)",
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.w500,
                           color: textColor,

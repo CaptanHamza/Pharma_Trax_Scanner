@@ -1,7 +1,8 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'dart:developer';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../providers/auth_provider.dart';
 import '../utils/colors.dart';
 import '../utils/globalValue.dart';
@@ -13,25 +14,20 @@ class AppDrawer extends StatefulWidget {
   State<AppDrawer> createState() => _AppDrawerState();
 }
 
-
-
 class _AppDrawerState extends State<AppDrawer> {
   SharedPreferences? prefs;
+  String? auth2;
 
   @override
   void initState() {
-    
     super.initState();
     getSharePrefenceValue();
   }
-
-  String? auth2;
 
   getSharePrefenceValue() async {
     prefs = await SharedPreferences.getInstance();
     String? getEmail = prefs!.getString('email').toString();
     log(getEmail.toString());
-
     setState(() {
       auth2 = getEmail;
     });
@@ -69,7 +65,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 ),
                 Title(
                     color: Colors.white,
-                    child: const Text(
+                    child: Text(
                       "PHARMA TRAX",
                       style: TextStyle(color: Colors.white),
                     )),
@@ -147,10 +143,6 @@ class _AppDrawerState extends State<AppDrawer> {
             Navigator.of(context).pushReplacementNamed('/scan_history');
           },
         ),
-
-
-       
-
         ListTile(
           selected: indexClicked == 2,
           selectedTileColor: textColor.withOpacity(0.2),
@@ -180,17 +172,15 @@ class _AppDrawerState extends State<AppDrawer> {
             Navigator.of(context).pushReplacementNamed('/update_database');
           },
         ),
-         ListTile(
+        ListTile(
           selected: indexClicked == 8,
           selectedTileColor: textColor.withOpacity(0.2),
           leading: SizedBox(
-            
             height: 28,
             width: 28,
             child: Image.asset(
               "assets/images/check_digit.png",
-              
-              color: indexClicked == 8  
+              color: indexClicked == 8
                   ? colorPrimaryLightBlue
                   : Colors.black.withOpacity(0.6),
             ),
@@ -211,8 +201,6 @@ class _AppDrawerState extends State<AppDrawer> {
             Navigator.of(context).pushReplacementNamed('/check_digit');
           },
         ),
-
-
         ListTile(
           selected: indexClicked == 3,
           selectedTileColor: textColor.withOpacity(0.2),
@@ -367,7 +355,7 @@ class _AppDrawerState extends State<AppDrawer> {
             });
             Navigator.of(context).pushReplacementNamed('/about_pharma');
           },
-        ),
+        )
       ]),
     ));
   }
