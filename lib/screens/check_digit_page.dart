@@ -53,7 +53,7 @@ class _CheckDigitPageState extends State<CheckDigitPage> {
                       image: AssetImage('assets/images/dna.png'))),
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -65,12 +65,12 @@ class _CheckDigitPageState extends State<CheckDigitPage> {
                       children: [
                         const Text(
                           "Please enter the number for check digit",
-                          textAlign: TextAlign.left,
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                               letterSpacing: 0.5,
-                              fontSize: 13),
+                              fontSize: 15),
                         ),
                         const SizedBox(
                           height: 15,
